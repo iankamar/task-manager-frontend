@@ -1,9 +1,9 @@
-/* DeleteTask.css */
-.delete-task-container {
+/* Logout.css */
+.logout-container {
   margin-top: 10px;
 }
 
-.delete-btn {
+.logout-btn {
   background-color: #e74c3c;
   color: #fff;
   padding: 8px;
@@ -13,6 +13,6 @@
   transition: background-color 0.3s ease;
 }
 
-.delete-btn:hover {
+.logout-btn:hover {
   background-color: #c0392b;
 }
