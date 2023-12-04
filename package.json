@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "react-redux": "^9.0.0",
+    "react-router-dom": "^6.20.1",
     "react-scripts": "^5.0.1"
   }
 }
