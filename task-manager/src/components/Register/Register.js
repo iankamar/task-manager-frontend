@@ -15,7 +15,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:your-backend-port/api/register",
+        "http://localhost:3001/api/register",
         user
       );
       console.log(response.data);

@@ -7,10 +7,9 @@ const DeleteTask = ({ taskId }) => {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:your-backend-port/api/tasks/${taskId}`
+        `http://localhost:3001/api/tasks/${taskId}`
       );
       console.log(response.data);
-      // Optionally, redirect or update the state after successful task deletion
     } catch (error) {
       console.error("Error deleting task:", error);
     }

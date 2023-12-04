@@ -15,7 +15,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:your-backend-port/api/login",
+        "http://localhost:3001/api/login",
         credentials
       );
       console.log(response.data);

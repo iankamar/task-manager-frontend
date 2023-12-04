@@ -6,9 +6,7 @@ import "./Logout.css";
 const Logout = () => {
   const handleLogout = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:your-backend-port/api/logout"
-      );
+      const response = await axios.post("http://localhost:3001/api/logout");
       console.log(response.data);
       // Optionally, redirect or update the state after successful logout
     } catch (error) {

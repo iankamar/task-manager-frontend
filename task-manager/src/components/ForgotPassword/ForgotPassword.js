@@ -11,11 +11,10 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:your-backend-port/api/forgot-password",
+        "http://localhost:3001/api/forgot-password",
         { email }
       );
       console.log(response.data);
-      // Optionally, show a success message to the user
     } catch (error) {
       console.error("Error sending forgot password email:", error);
     }
