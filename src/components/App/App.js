@@ -1,59 +1,17 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
-import { fetchTasks } from "../../utils/api";
-
+import { AuthProvider, useAuth } from "../../contexts/Authcontext";
 import "./App.css";
-
-// Define the AuthContext
-export const AuthContext = createContext();
-
-// Define the useAuth hook
-export function useAuth() {
-  return useContext(AuthContext);
-}
-
-// Define the AuthProvider component
-export function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [profile, setProfile] = useState(null);
-
-  const saveProfile = async (token) => {
-    try {
-      const response = await fetchTasks();
-
-      if (!response.ok) {
-        throw new Error("Profile fetch failed");
-      }
-
-      const profile = await response.json();
-      setProfile(profile);
-    } catch (error) {
-      console.error("Failed to fetch profile:", error);
-    }
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    setIsLoggedIn(true);
-    saveProfile(token);
-  }, []);
-
-  const value = {
-    isLoggedIn,
-    setIsLoggedIn,
-    profile,
-    saveProfile,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const { isLoggedIn } = useAuth();
+  const auth = useAuth();
+
+  if (auth.isLoggedIn === undefined) {
+    return <div>Loading...</div>;
+  }
 
   const addTask = (task) => {
     setTasks([...tasks, task]);
@@ -65,13 +23,13 @@ function App() {
         <Routes>
           <Route
             path="/signup"
-            element={isLoggedIn ? <Navigate to="/" /> : <Register />}
+            element={auth.isLoggedIn ? <Navigate to="/" /> : <Register />}
           />
           <Route path="/login" element={<Login />} />
           <Route
             path="/tasks/add"
             element={
-              isLoggedIn ? (
+              auth.isLoggedIn ? (
                 <TaskInput addTask={addTask} />
               ) : (
                 <Navigate to="/login" state={{ redirectUrl: "/tasks/add" }} />
@@ -81,7 +39,7 @@ function App() {
           <Route
             path="/tasks/:taskId"
             element={
-              isLoggedIn ? (
+              auth.isLoggedIn ? (
                 <TaskList tasks={tasks} />
               ) : (
                 <Navigate
