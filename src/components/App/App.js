@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import { AuthProvider } from "../../contexts/Authcontext";
 import { AuthContext } from "../../contexts/Authcontext";
 import Header from "../Header/Header";
@@ -12,7 +16,7 @@ import CreateTask from "../CreateTask/CreateTask";
 import DeleteTask from "../DeleteTask/DeleteTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import TaskList from "../TaskList/TaskList";
-import { AuthRoute } from "../../contexts/AuthRoute";
+//import { AuthRoute } from "../../contexts/AuthRoute";
 import {
   getTaskList,
   createTask,
@@ -22,16 +26,14 @@ import {
 import { register, login } from "../../utils/auth";
 import "./App.css";
 
-const App = () => {
-  const [tasks, setTasks] = useState([]);
-  const [activeModal, setActiveModal] = useState("");
-  const [selectedTask, setSelectedTask] = useState({});
-  const [isLoading, setIsLoading] = React.useState(false);
+const NavigationComponent = ({ tasks, setTasks }) => {
   const navigate = useNavigate();
-  // navigate("/home");
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
+  const [activeModal, setActiveModal] = useState("");
+  const [selectedTask, setSelectedTask] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCloseModal = () => {
     setActiveModal("");
@@ -43,6 +45,7 @@ const App = () => {
   };
 
   const handleDeleteTask = (selectedTask) => {
+    setIsLoading(true);
     deleteTask(selectedTask.id)
       .then(() => {
         const updatedTasks = tasks.filter(
@@ -58,37 +61,32 @@ const App = () => {
   };
 
   const handleCreateTask = (task) => {
-    const handleTaskRequest = () => {
-      return createTask(task).then((addedTask) => {
+    setIsLoading(true);
+    createTask(task)
+      .then((addedTask) => {
         setTasks([addedTask, ...tasks]);
-      });
-    };
-
-    handleSubmit(handleTaskRequest);
+        handleCloseModal();
+      })
+      .catch((err) => {
+        console.error("Error creating task:", err);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const handleUpdateTask = (task) => {
-    const handleTaskRequest = () => {
-      return updateTask(task).then((updatedTask) => {
+    setIsLoading(true);
+    updateTask(task)
+      .then((updatedTask) => {
         const updatedTasks = tasks.map((t) =>
           t.id === updatedTask.id ? updatedTask : t
         );
         setTasks(updatedTasks);
-      });
-    };
-
-    handleSubmit(handleTaskRequest);
-  };
-
-  const handleSubmit = (request) => {
-    setIsLoading(true);
-
-    request()
-      .then(handleCloseModal)
-      .catch(console.error)
-      .finally(() => {
-        setIsLoading(false);
-      });
+        handleCloseModal();
+      })
+      .catch((err) => {
+        console.error("Error updating task:", err);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   useEffect(() => {
@@ -97,7 +95,7 @@ const App = () => {
         setTasks(taskList);
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [setTasks]);
 
   const handleRegistration = ({ email, password }) => {
     register({ email, password })
@@ -130,49 +128,71 @@ const App = () => {
   };
 
   return (
-    <AuthProvider>
-      <AuthContext value={tasks}>
-        <Router>
-          <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+    <>
+      <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
 
-          <Route exact path="/register">
-            <Register onRegister={handleRegistration} />
-          </Route>
-          <Route exact path="/login">
-            <Login onLogin={handleLogin} />
-          </Route>
-          <AuthRoute path="/tasks">
-            <TaskList tasks={tasks} onTaskClick={handleSelectedTask} />
-          </AuthRoute>
-          <AuthRoute path="/create-task">
+      <Routes>
+        <Route
+          path="/register"
+          element={<Register onRegister={handleRegistration} />}
+        />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route
+          path="/tasks"
+          element={<TaskList tasks={tasks} onTaskClick={handleSelectedTask} />}
+        />
+        <Route
+          path="/create-task"
+          element={
             <CreateTask
               onCloseModal={handleCloseModal}
               onAddTask={handleCreateTask}
               isLoading={isLoading}
             />
-          </AuthRoute>
-          <AuthRoute path="/update-task/:taskId">
+          }
+        />
+        <Route
+          path="/update-task/:taskId"
+          element={
             <UpdateTask
               task={selectedTask}
               onCloseModal={handleCloseModal}
               onUpdateTask={handleUpdateTask}
               isLoading={isLoading}
             />
-          </AuthRoute>
-          <AuthRoute path="/delete-task/:taskId">
+          }
+        />
+        <Route
+          path="/delete-task/:taskId"
+          element={
             <DeleteTask
               task={selectedTask}
               onCloseModal={handleCloseModal}
               onDeleteTask={handleDeleteTask}
               isLoading={isLoading}
             />
-          </AuthRoute>
-          {activeModal === "preview" && (
-            <Task task={selectedTask} onCloseModal={handleCloseModal} />
-          )}
-          <Footer />
+          }
+        />
+      </Routes>
+
+      {activeModal === "preview" && (
+        <Task task={selectedTask} onCloseModal={handleCloseModal} />
+      )}
+      <Footer />
+    </>
+  );
+};
+
+const App = () => {
+  const [tasks, setTasks] = useState([]);
+
+  return (
+    <AuthProvider>
+      <AuthContext.Provider value={tasks}>
+        <Router>
+          <NavigationComponent tasks={tasks} setTasks={setTasks} />
         </Router>
-      </AuthContext>
+      </AuthContext.Provider>
     </AuthProvider>
   );
 };
