@@ -24,4 +24,4 @@ npm start
 
 ## Related Respositories
 
-[Backend] (https://github.com/iankamar/task-manager-backend)
+[Backend](https://github.com/iankamar/task-manager-backend)
