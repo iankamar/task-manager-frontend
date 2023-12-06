@@ -28,7 +28,7 @@ const App = () => {
   const [selectedTask, setSelectedTask] = useState({});
   const [isLoading, setIsLoading] = React.useState(false);
   const navigate = useNavigate();
-  navigate("/home");
+  // navigate("/home");
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
