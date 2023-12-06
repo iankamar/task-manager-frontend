@@ -1,29 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import { getTaskList } from "../utils/api";
-/* export const AuthContext = createContext();
-
-export function useAuth() {
-  return useContext(AuthContext);
-}
-
-export function AuthProvider({ children }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  const value = {
-    isLoggedIn,
-    setIsLoggedIn,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-*/
 
 // Define the AuthContext
 export const AuthContext = createContext();
@@ -61,9 +37,10 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return;
-    setIsLoggedIn(true);
-    saveProfile(token);
+    if (token) {
+      setIsLoggedIn(true);
+      saveProfile(token);
+    }
   }, []);
 
   const value = {
