@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
-import { fetchTasks } from "../utils/api";
+import { getTaskList } from "../utils/api";
 /* export const AuthContext = createContext();
 
 export function useAuth() {
@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
 
   const saveProfile = async (token) => {
     try {
-      const response = await fetchTasks();
+      const response = await getTaskList();
 
       if (!response.ok) {
         throw new Error("Profile fetch failed");
