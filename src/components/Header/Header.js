@@ -26,7 +26,7 @@ const Header = ({
             </button>
           ) : (
             <button className="header__button" onClick={openRegisterModal}>
-              Sign up
+              Register
             </button>
           )}
         </div>
