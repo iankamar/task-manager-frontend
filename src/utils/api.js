@@ -20,6 +20,7 @@ const headers = {
 const api = axios.create({
   baseURL: API_URL,
   headers,
+  withCredentials: true,
 });
 
 export const getTaskList = () => api.get("/tasks");
