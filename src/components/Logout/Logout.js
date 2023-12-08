@@ -8,7 +8,6 @@ const Logout = () => {
     try {
       const response = await axios.post("http://localhost:3001/api/logout");
       console.log(response.data);
-      // Optionally, redirect or update the state after successful logout
     } catch (error) {
       console.error("Error logging out:", error);
     }

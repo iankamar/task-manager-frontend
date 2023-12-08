@@ -19,7 +19,6 @@ const Login = () => {
         credentials
       );
       console.log(response.data);
-      // Optionally, redirect or update the state after successful login
     } catch (error) {
       console.error("Error logging in:", error);
     }

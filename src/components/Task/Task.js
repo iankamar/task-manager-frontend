@@ -14,7 +14,7 @@ const Task = ({ task }) => {
         <p>
           <strong>Status:</strong> {task.status}
         </p>
-        {/* Add more details as needed */}
+        {/* Additional details */}
       </div>
       {/* ... Display other task details */}
     </div>

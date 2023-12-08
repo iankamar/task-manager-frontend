@@ -16,7 +16,7 @@ import CreateTask from "../CreateTask/CreateTask";
 import DeleteTask from "../DeleteTask/DeleteTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import TaskList from "../TaskList/TaskList";
-//import { AuthRoute } from "../../contexts/AuthRoute";
+
 import {
   getTaskList,
   createTask,

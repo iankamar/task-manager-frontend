@@ -22,7 +22,6 @@ const UpdateTask = ({ taskId }) => {
         updatedTask
       );
       console.log(response.data);
-      // Optionally, you can redirect or update the state after successful task update
     } catch (error) {
       console.error("Error updating task:", error);
     }

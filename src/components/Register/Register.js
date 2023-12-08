@@ -19,7 +19,6 @@ const Register = () => {
         user
       );
       console.log(response.data);
-      // Optionally, redirect or update the state after successful registration
     } catch (error) {
       console.error("Error registering user:", error);
     }
