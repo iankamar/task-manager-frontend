@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "https://api.todoist.com/rest/v1";
+const API_URL = "http://localhost:3001/todoist-proxy";
+//const API_URL = "https://api.todoist.com/rest/v1";
 const TODOIST_API_TOKEN = "2b61d8158074902ceca67b61794de3fda171840d";
 
 export const handleServerResponse = (res) => {
