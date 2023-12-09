@@ -2,7 +2,7 @@
 export const apiConfig = {
   baseUrl: "https://api.todoist.com/rest/v2",
   headers: {
-    authorization: "9d038fa32583784d3857e4bf3c43abae419d005c",
+    authorization: "Bearer 9d038fa32583784d3857e4bf3c43abae419d005c",
     "Content-Type": "application/json",
   },
 };
