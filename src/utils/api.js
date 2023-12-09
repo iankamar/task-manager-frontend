@@ -36,8 +36,8 @@ export default api;
 
 // api.js
 export const apiConfig = {
-  baseUrl: "https://iankamar.github.io/task-manager-frontend/",
-  //baseUrl: "https://api.todoist.com/rest/v1",
+  // baseUrl: "https://iankamar.github.io/task-manager-frontend/",
+  baseUrl: "https://api.todoist.com/rest/v2/",
   headers: {
     authorization: "Bearer 2b61d8158074902ceca67b61794de3fda171840d",
     "Content-Type": "application/json",
