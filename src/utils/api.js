@@ -36,9 +36,7 @@ export default api;
 
 // api.js
 export const apiConfig = {
-  
-  baseUrl: "http://localhost:3001/todoist-proxy",
-  //baseUrl: "https://iankamar.github.io/task-manager-frontend/",
+  baseUrl: "https://iankamar.github.io/task-manager-frontend/",
   //baseUrl: "https://api.todoist.com/rest/v1",
   headers: {
     authorization: "Bearer 2b61d8158074902ceca67b61794de3fda171840d",
