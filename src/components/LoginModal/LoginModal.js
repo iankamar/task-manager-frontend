@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 const LoginModal = ({
@@ -12,7 +12,7 @@ const LoginModal = ({
 }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [isFormFilled, setIsFormFilled] = useState(false);
-  const history = useHistory();
+  const history = useNavigate();
 
   const handleChange = (event) => {
     setCredentials({

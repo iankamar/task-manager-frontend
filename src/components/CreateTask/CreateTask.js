@@ -1,9 +1,10 @@
-// CreateTask.js
 import React, { useState } from "react";
 import axios from "axios";
 import "./CreateTask.css";
+import { useNavigate } from "react-router-dom";
 
 const CreateTask = () => {
+  const navigate = useNavigate();
   const [task, setTask] = useState({
     title: "",
     description: "",
@@ -17,20 +18,20 @@ const CreateTask = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    //console.log(task);
     try {
-      const response = await axios.post(
-        "http://localhost:your-backend-port/api/tasks",
+      await axios.post(
+        "https://657661050febac18d403d9cd.mockapi.io/api/v1/tasks",
         task
       );
-      console.log(response.data);
+      navigate("/tasks");
     } catch (error) {
       console.error("Error creating task:", error);
     }
   };
 
   return (
-    <div className="create-task-container">
+    <div className="container mt-3 create-task-container">
       <h2>Create Task</h2>
       <form onSubmit={handleSubmit} className="task-form">
         <label>

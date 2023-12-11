@@ -15,3 +15,32 @@
 .task-description {
   color: #666;
 }
+
+.task-update {
+  background-color: #3498db;
+  color: #fff;
+  padding: 5px 8px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  margin-right: 3px;
+}
+
+.task-delete {
+  background-color: #f31111;
+  color: #fff;
+  padding: 5px 8px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  margin-left: 3px;
+}
+
+.task-btn-group {
+  display: flex;
+  align-items: center;
+}

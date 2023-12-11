@@ -16,6 +16,14 @@ const Task = ({ task }) => {
         </p>
         {/* Additional details */}
       </div>
+      <div className="task-btn-group">
+        <a href={`/update-task/${task.id}`} className="task-update">
+          Update
+        </a>
+        <a href={`/delete-task/${task.id}`} className="task-delete">
+          Delete
+        </a>
+      </div>
       {/* ... Display other task details */}
     </div>
   );

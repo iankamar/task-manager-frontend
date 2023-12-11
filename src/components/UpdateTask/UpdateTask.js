@@ -1,9 +1,12 @@
 // UpdateTask.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./UpdateTask.css";
+import { useNavigate, useParams } from "react-router-dom";
 
-const UpdateTask = ({ taskId }) => {
+const UpdateTask = () => {
+  const { taskId } = useParams();
+  const navigate = useNavigate();
   const [updatedTask, setUpdatedTask] = useState({
     title: "",
     description: "",
@@ -11,24 +14,45 @@ const UpdateTask = ({ taskId }) => {
     status: "",
   });
 
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await axios.get(
+          `https://657661050febac18d403d9cd.mockapi.io/api/v1/tasks/${taskId}`
+        );
+        setUpdatedTask({
+          title: response.data.title,
+          description: response.data.description,
+          dueDate: response.data.dueDate,
+          status: response.data.status,
+        });
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, [taskId]);
+
   const handleChange = (e) => {
     setUpdatedTask({ ...updatedTask, [e.target.name]: e.target.value });
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (event) => {
+    event.preventDefault();
     try {
-      const response = await axios.put(
-        `http://localhost:your-backend-port/api/tasks/${taskId}`,
+      await axios.put(
+        `https://657661050febac18d403d9cd.mockapi.io/api/v1/tasks/${taskId}`,
         updatedTask
       );
-      console.log(response.data);
+      navigate("/tasks");
     } catch (error) {
       console.error("Error updating task:", error);
     }
   };
 
   return (
-    <div className="update-task-container">
+    <div className="container mt-3 update-task-container">
       <h2>Update Task</h2>
       <form onSubmit={handleUpdate} className="update-task-form">
         <label>

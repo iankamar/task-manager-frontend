@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Main from "../Main/Main";
 import {
   BrowserRouter as Router,
   Route,
@@ -25,6 +26,9 @@ import {
 } from "../../utils/api";
 import { register, login } from "../../utils/auth";
 import "./App.css";
+import LoginModal from "../LoginModal/LoginModal";
+import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import RegisterModal from "../RegisterModal/RegisterModal";
 
 const NavigationComponent = ({ tasks, setTasks }) => {
   const navigate = useNavigate();
@@ -127,9 +131,22 @@ const NavigationComponent = ({ tasks, setTasks }) => {
     navigate("/");
   };
 
+  const openLoginModal = () => {
+    setActiveModal("login");
+  };
+
+  const openRegisterModal = () => {
+    setActiveModal("register");
+  };
+
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <Header
+        isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
+        openLoginModal={openLoginModal}
+        openRegisterModal={openRegisterModal}
+      />
 
       <Routes>
         <Route
@@ -173,10 +190,17 @@ const NavigationComponent = ({ tasks, setTasks }) => {
             />
           }
         />
+        <Route path="/" element={<Main />} />
       </Routes>
 
       {activeModal === "preview" && (
         <Task task={selectedTask} onCloseModal={handleCloseModal} />
+      )}
+      {activeModal === "login" && (
+        <LoginModal setActiveModal={setActiveModal} />
+      )}
+      {activeModal === "register" && (
+        <RegisterModal setActiveModal={setActiveModal} />
       )}
       <Footer />
     </>
