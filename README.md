@@ -24,7 +24,7 @@ npm start
 
 ## GitHub
 
-[Website](https://iankamar.github.io/task-manager-frontend/)
+[website](https://iankamar.github.io/task-manager-frontend/public/index.html)
 
 ## Related Respositories
 
