@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 import { Modal } from "react-bootstrap";
 
 const LoginModal = ({ setActiveModal }) => {
@@ -17,11 +17,17 @@ const LoginModal = ({ setActiveModal }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
+      /*const response = await axios.post(
         "http://localhost:3001/api/login",
         credentials
-      );
+      );*/
+      const response = {
+        data: {
+          message: "Login successful",
+        },
+      };
       console.log(response.data);
+      handleClose();
     } catch (error) {
       console.error("Error logging in:", error);
     }
