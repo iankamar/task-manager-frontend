@@ -3,11 +3,10 @@ import axios from "axios";
 import { Modal } from "react-bootstrap";
 
 const LoginModal = ({ setActiveModal }) => {
-  const [isShow, isShowModal] = useState(true);
-  const closeLoginModal = () => {
+  const handleClose = () => {
     setActiveModal("");
-    isShowModal(false);
   };
+
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -27,10 +26,11 @@ const LoginModal = ({ setActiveModal }) => {
       console.error("Error logging in:", error);
     }
   };
+
   return (
     <>
-      <Modal show={isShow}>
-        <Modal.Header closeButton onClick={closeLoginModal}>
+      <Modal show={true} onHide={handleClose}>
+        <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>
         <Modal.Body className="py-3">

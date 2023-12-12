@@ -1,14 +1,12 @@
-// Register.js
 import React, { useState } from "react";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
 
 const RegisterModal = ({ setActiveModal }) => {
-  const [isShow, isShowModal] = useState(true);
-  const closeRegisterModal = () => {
+  const handleClose = () => {
     setActiveModal("");
-    isShowModal(false);
   };
+
   const [user, setUser] = useState({ username: "", email: "", password: "" });
 
   const handleChange = (e) => {
@@ -31,8 +29,8 @@ const RegisterModal = ({ setActiveModal }) => {
 
   return (
     <>
-      <Modal show={isShow}>
-        <Modal.Header closeButton onClick={closeRegisterModal}>
+      <Modal show={true} onHide={handleClose}>
+        <Modal.Header closeButton>
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
         <Modal.Body className="py-3">
