@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Main from "../Main/Main";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Routes,
   useNavigate,
@@ -190,7 +190,7 @@ const NavigationComponent = ({ tasks, setTasks }) => {
             />
           }
         />
-        <Route path="/task-manager-frontend" element={<Main />} />
+        <Route path="/" element={<Main />} />
       </Routes>
 
       {activeModal === "preview" && (
