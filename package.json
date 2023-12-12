@@ -1,6 +1,5 @@
 {
   "name": "task-manager",
-  "homepage": "https://iankamar.github.io/task-manager-frontend/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
