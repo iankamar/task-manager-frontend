@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TaskList from "../TaskList/TaskList";
 import CreateTask from "../CreateTask/CreateTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import DeleteTask from "../DeleteTask/DeleteTask";
 //import Task from "../Task/Task";
 //import { useNavigate } from "react-router-dom";
-import {
-  getTaskList,
-  deleteTask,
-  createTask,
-  updateTask,
-} from "../../utils/api";
+import { deleteTask, createTask, updateTask } from "../../utils/api";
 
 const Main = () => {
-  //const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -73,22 +67,16 @@ const Main = () => {
       .finally(() => setIsLoading(false));
   };
 
-  useEffect(() => {
-    getTaskList()
-      .then((taskList) => {
-        setTasks(taskList);
-      })
-      .catch((error) => console.error(error));
-  }, []);
-
   return (
     <div>
       <TaskList tasks={tasks} onTaskClick={handleSelectedTask} />
-      <CreateTask
-        onCloseModal={handleCloseModal}
-        onAddTask={handleCreateTask}
-        isLoading={isLoading}
-      />
+      {activeModal === "create" && (
+        <CreateTask
+          onCloseModal={handleCloseModal}
+          onAddTask={handleCreateTask}
+          isLoading={isLoading}
+        />
+      )}
       {activeModal === "update" && (
         <UpdateTask
           task={selectedTask}
@@ -110,8 +98,3 @@ const Main = () => {
 };
 
 export default Main;
-
-/*
-{activeModal === "preview" && (
-        <Task task={selectedTask} onCloseModal={handleCloseModal} />
-      )}*/
