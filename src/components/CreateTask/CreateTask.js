@@ -18,7 +18,6 @@ const CreateTask = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //console.log(task);
     try {
       await axios.post(
         "https://657661050febac18d403d9cd.mockapi.io/api/v1/tasks",
