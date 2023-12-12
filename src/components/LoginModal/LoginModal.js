@@ -1,77 +1,69 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import axios from "axios";
+import { Modal } from "react-bootstrap";
 
-const LoginModal = ({
-  isOpen,
-  handleCloseModal,
-  handleLogin,
-  handleToggleModal,
-  showFormError,
-  isLoading,
-}) => {
+const LoginModal = ({ setActiveModal }) => {
+  const [isShow, isShowModal] = useState(true);
+  const closeLoginModal = () => {
+    setActiveModal("");
+    isShowModal(false);
+  };
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const [isFormFilled, setIsFormFilled] = useState(false);
-  const history = useNavigate();
 
-  const handleChange = (event) => {
-    setCredentials({
-      ...credentials,
-      [event.target.name]: event.target.value,
-    });
-    setIsFormFilled(credentials.email !== "" && credentials.password !== "");
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleLogin(credentials.email, credentials.password);
-    history.push("/profile");
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/login",
+        credentials
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  };
   return (
-    <ModalWithForm
-      className="modal__title"
-      isOpen={isOpen}
-      type="login"
-      title="Log in"
-      buttonText={
-        isLoading ? "Loading..." : isFormFilled ? " Log in" : "Log in"
-      }
-      onCloseModal={handleCloseModal}
-      onSubmit={handleSubmit}
-    >
-      <label className={showFormError ? "modal__labelError" : "modal__label"}>
-        {showFormError ? "Incorrect email or password" : "Email"}
-        <input
-          className={showFormError ? "modal__inputError" : "modal__input"}
-          type="email"
-          placeholder="Email"
-          value={credentials.email}
-          onChange={handleChange}
-          name="email"
-          required
-        />
-      </label>
-      <label className={showFormError ? "modal__labelError" : "modal__label"}>
-        {showFormError ? "Incorrect email or password" : "Password"}
-        <input
-          className={showFormError ? "modal__inputError" : "modal__input"}
-          type="password"
-          placeholder="Password"
-          value={credentials.password}
-          onChange={handleChange}
-          name="password"
-          required
-        />
-      </label>
-      <button
-        type="button"
-        className="modal__register"
-        onClick={handleToggleModal}
-      >
-        or Register
-      </button>
-    </ModalWithForm>
+    <>
+      <Modal show={isShow}>
+        <Modal.Header closeButton onClick={closeLoginModal}>
+          <Modal.Title>Login</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="py-3">
+          <form onSubmit={handleSubmit} className="login-form">
+            <label>
+              Email:
+              <input
+                type="email"
+                name="email"
+                className="form-control"
+                value={credentials.email}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label>
+              Password:
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                value={credentials.password}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <button type="submit" className="submit-btn">
+              Login
+            </button>
+          </form>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 

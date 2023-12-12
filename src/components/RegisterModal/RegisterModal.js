@@ -1,105 +1,79 @@
-import React, { useEffect, useState } from "react";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+// Register.js
+import React, { useState } from "react";
+import axios from "axios";
+import { Modal } from "react-bootstrap";
 
-const RegisterModal = ({
-  isOpen,
-  handleCloseModal,
-  handleRegistration,
-  handleToggleModal,
-  isLoading,
-}) => {
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-    name: "",
-    avatar: "",
-  });
-
-  useEffect(() => {
-    setCredentials({
-      email: "",
-      password: "",
-      name: "",
-      avatar: "",
-    });
-  }, [isOpen]);
+const RegisterModal = ({ setActiveModal }) => {
+  const [isShow, isShowModal] = useState(true);
+  const closeRegisterModal = () => {
+    setActiveModal("");
+    isShowModal(false);
+  };
+  const [user, setUser] = useState({ username: "", email: "", password: "" });
 
   const handleChange = (e) => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value,
-    });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting registration form with credentials:", credentials);
-    handleRegistration(credentials);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/register",
+        user
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error registering user:", error);
+    }
   };
 
   return (
-    <ModalWithForm
-      isOpen={isOpen}
-      type="register"
-      title="Sign up"
-      buttonText={isLoading ? "Loading..." : "Next"}
-      onCloseModal={handleCloseModal}
-      onSubmit={handleSubmit}
-    >
-      <label className="modal__label">
-        Email*
-        <input
-          className="modal__input"
-          name="email"
-          type="email"
-          value={credentials.email}
-          onChange={handleChange}
-          placeholder="Email"
-          required
-        />
-      </label>
-      <label className="modal__label">
-        Password*
-        <input
-          className="modal__input"
-          name="password"
-          type="password"
-          value={credentials.password}
-          onChange={handleChange}
-          placeholder="Password"
-          required
-        />
-      </label>
-      <label className="modal__label">
-        Name
-        <input
-          className="modal__input"
-          name="name"
-          type="text"
-          value={credentials.name}
-          onChange={handleChange}
-          placeholder="Name"
-        />
-      </label>
-      <label className="modal__label">
-        Avatar URL
-        <input
-          className="modal__input"
-          name="avatar"
-          type="url"
-          value={credentials.avatar}
-          onChange={handleChange}
-          placeholder="Avatar URL"
-        />
-      </label>
-      <button
-        type="button"
-        className="modal__register"
-        onClick={handleToggleModal}
-      >
-        or Log in
-      </button>
-    </ModalWithForm>
+    <>
+      <Modal show={isShow}>
+        <Modal.Header closeButton onClick={closeRegisterModal}>
+          <Modal.Title>Register</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="py-3">
+          <form onSubmit={handleSubmit} className="register-form">
+            <label>
+              Username:
+              <input
+                type="text"
+                name="username"
+                value={user.username}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label>
+              Email:
+              <input
+                type="email"
+                name="email"
+                value={user.email}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label>
+              Password:
+              <input
+                type="password"
+                name="password"
+                value={user.password}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <button type="submit" className="submit-btn">
+              Register
+            </button>
+          </form>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
