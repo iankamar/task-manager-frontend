@@ -5,9 +5,9 @@
   min-height: 92px;
   padding: 0 20px;
   height: 40px;
-  font-weight: bold;
-  font-size: 20px;
-  font-family: "Cabinet Grotesk", Arial, sans-serif;
+  /*font-weight: bold;*/
+  font-size: 16px;
+  /*font-family: "Cabinet Grotesk", Arial, sans-serif;*/
   box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
 }
 
@@ -28,8 +28,8 @@
   background-color: rgba(255, 255, 255, 0);
   border: none;
   font-weight: bold;
-  font-size: 20px;
-  font-family: "Cabinet Grotesk", Arial, sans-serif;
+  font-size: 16px;
+  /*font-family: "Cabinet Grotesk", Arial, sans-serif;*/
 }
 
 .avatar__placeholder {
@@ -90,8 +90,8 @@
   grid-area: c;
   padding: 0px;
   font-weight: 700;
-  font-family: "CabinetGrotesk-Regular", sans-serif;
-  font-size: 20px;
+  /*font-family: "CabinetGrotesk-Regular", sans-serif;*/
+  font-size: 16px;
 }
 
 .header__button:hover {
