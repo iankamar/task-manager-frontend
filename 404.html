@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Single Page Apps for GitHub Pages</title>
+    <script type="text/javascript">
+      var segmentCount = 1;
+      function redirect() {
+        var url = window.location.href;
+        var path = url.split("/").slice(0, -1);
+        var query = url.split("?")[1];
+        var newUrl = path + "?" + query;
+        window.location.replace(newUrl);
+        return false;
+      }
+      window.addEventListener("load", function () {
+        if (segmentCount > 0) {
+          redirect();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Oops! Page not found.</h1>
+    <p>Please try again later.</p>
+  </body>
+</html>
