@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Main from "../Main/Main";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Routes,
   useNavigate,
+  HashRouter,
 } from "react-router-dom";
 import { AuthProvider } from "../../contexts/Authcontext";
 import { AuthContext } from "../../contexts/Authcontext";
@@ -211,13 +212,15 @@ const App = () => {
   const [tasks, setTasks] = useState([]);
 
   return (
-    <AuthProvider>
-      <AuthContext.Provider value={tasks}>
-        <Router>
-          <NavigationComponent tasks={tasks} setTasks={setTasks} />
-        </Router>
-      </AuthContext.Provider>
-    </AuthProvider>
+    <HashRouter>
+      <AuthProvider>
+        <AuthContext.Provider value={tasks}>
+          <Router>
+            <NavigationComponent tasks={tasks} setTasks={setTasks} />
+          </Router>
+        </AuthContext.Provider>
+      </AuthProvider>
+    </HashRouter>
   );
 };
 
