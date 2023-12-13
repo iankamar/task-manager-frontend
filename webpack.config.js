@@ -6,6 +6,9 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
     publicPath: "/task-manager-frontend/",
+    historyApiFallback: {
+      index: "/task-manager-frontend/",
+    },
   },
   resolve: {
     fallback: {
