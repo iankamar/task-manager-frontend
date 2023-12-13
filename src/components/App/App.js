@@ -155,11 +155,11 @@ const NavigationComponent = ({ tasks, setTasks }) => {
         />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route
-          path="/tasks"
+          path="/task-manager-frontend/tasks"
           element={<TaskList tasks={tasks} onTaskClick={handleSelectedTask} />}
         />
         <Route
-          path="/create-task"
+          path="/task-manager-frontend/create-task"
           element={
             <CreateTask
               onCloseModal={handleCloseModal}
@@ -169,7 +169,7 @@ const NavigationComponent = ({ tasks, setTasks }) => {
           }
         />
         <Route
-          path="/update-task/:taskId"
+          path="/task-manager-frontend/update-task/:taskId"
           element={
             <UpdateTask
               task={selectedTask}
@@ -180,7 +180,7 @@ const NavigationComponent = ({ tasks, setTasks }) => {
           }
         />
         <Route
-          path="/delete-task/:taskId"
+          path="/task-manager-frontend/delete-task/:taskId"
           element={
             <DeleteTask
               task={selectedTask}
@@ -190,7 +190,7 @@ const NavigationComponent = ({ tasks, setTasks }) => {
             />
           }
         />
-        <Route path="/" element={<Main />} />
+        <Route path="/task-manager-frontend" element={<Main />} />
       </Routes>
 
       {activeModal === "preview" && (
