@@ -5,7 +5,7 @@ module.exports = {
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: "auto",
+    publicPath: "/task-manager-frontend/",
   },
   resolve: {
     fallback: {
