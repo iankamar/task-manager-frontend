@@ -190,7 +190,7 @@ const NavigationComponent = ({ tasks, setTasks }) => {
             />
           }
         />
-        <Route path="/" element={<Main />} />
+        <Route path="/task-manager-frontend" element={<Main />} />
       </Routes>
 
       {activeModal === "preview" && (
