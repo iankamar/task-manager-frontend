@@ -1,4 +1,3 @@
-/*
 import React, { useEffect, useState } from "react";
 import Main from "../Main/Main";
 import {
@@ -224,8 +223,7 @@ const App = () => {
 
 export default App;
 
-
-*/
+/*
 import React, { useEffect, useState } from "react";
 import Main from "../Main/Main";
 import { HashRouter, Route, Routes, useNavigate } from "react-router-dom";
@@ -445,3 +443,4 @@ const App = () => {
 };
 
 export default App;
+*/
