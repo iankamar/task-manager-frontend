@@ -49,6 +49,7 @@ const RegisterModal = ({ setActiveModal }) => {
                 value={user.username}
                 onChange={handleChange}
                 required
+                autoComplete="new-username"
               />
             </label>
             <label>
@@ -59,6 +60,7 @@ const RegisterModal = ({ setActiveModal }) => {
                 value={user.email}
                 onChange={handleChange}
                 required
+                autoComplete="new-email"
               />
             </label>
             <label>
@@ -69,6 +71,7 @@ const RegisterModal = ({ setActiveModal }) => {
                 value={user.password}
                 onChange={handleChange}
                 required
+                autoComplete="new-password"
               />
             </label>
             <button type="submit" className="submit-btn">

@@ -50,6 +50,7 @@ const LoginModal = ({ setActiveModal }) => {
                 value={credentials.email}
                 onChange={handleChange}
                 required
+                autoComplete="current-email"
               />
             </label>
             <label>
@@ -61,6 +62,7 @@ const LoginModal = ({ setActiveModal }) => {
                 value={credentials.password}
                 onChange={handleChange}
                 required
+                autoComplete="current-password"
               />
             </label>
             <button type="submit" className="submit-btn">
