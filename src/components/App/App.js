@@ -149,48 +149,51 @@ const NavigationComponent = ({ tasks, setTasks }) => {
       />
 
       <Routes>
-        <Route
-          path="/register"
-          element={<Register onRegister={handleRegistration} />}
-        />
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route
-          path="/task-manager-frontend/tasks"
-          element={<TaskList tasks={tasks} onTaskClick={handleSelectedTask} />}
-        />
-        <Route
-          path="/task-manager-frontend/create-task"
-          element={
-            <CreateTask
-              onCloseModal={handleCloseModal}
-              onAddTask={handleCreateTask}
-              isLoading={isLoading}
-            />
-          }
-        />
-        <Route
-          path="/task-manager-frontend/update-task/:taskId"
-          element={
-            <UpdateTask
-              task={selectedTask}
-              onCloseModal={handleCloseModal}
-              onUpdateTask={handleUpdateTask}
-              isLoading={isLoading}
-            />
-          }
-        />
-        <Route
-          path="/task-manager-frontend/delete-task/:taskId"
-          element={
-            <DeleteTask
-              task={selectedTask}
-              onCloseModal={handleCloseModal}
-              onDeleteTask={handleDeleteTask}
-              isLoading={isLoading}
-            />
-          }
-        />
-        <Route path="/task-manager-frontend" element={<Main />} />
+        <Route path="/task-manager-frontend/*" element={<Main />}>
+          <Route
+            path="register"
+            element={<Register onRegister={handleRegistration} />}
+          />
+          <Route path="login" element={<Login onLogin={handleLogin} />} />
+          <Route
+            path="tasks"
+            element={
+              <TaskList tasks={tasks} onTaskClick={handleSelectedTask} />
+            }
+          />
+          <Route
+            path="create-task"
+            element={
+              <CreateTask
+                onCloseModal={handleCloseModal}
+                onAddTask={handleCreateTask}
+                isLoading={isLoading}
+              />
+            }
+          />
+          <Route
+            path="update-task/:taskId"
+            element={
+              <UpdateTask
+                task={selectedTask}
+                onCloseModal={handleCloseModal}
+                onUpdateTask={handleUpdateTask}
+                isLoading={isLoading}
+              />
+            }
+          />
+          <Route
+            path="delete-task/:taskId"
+            element={
+              <DeleteTask
+                task={selectedTask}
+                onCloseModal={handleCloseModal}
+                onDeleteTask={handleDeleteTask}
+                isLoading={isLoading}
+              />
+            }
+          />
+        </Route>
       </Routes>
 
       {activeModal === "preview" && (
