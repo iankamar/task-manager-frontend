@@ -1,6 +1,9 @@
 import { request } from "../utils/api";
 
-const baseUrl = process.env.NODE_ENV === "http://localhost:3001";
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api.iankamar-taskmanager.cbu.net"
+    : "http://localhost:3001";
 
 export const register = ({ name, avatar, email, password }) => {
   console.log(process.env.NODE_ENV, baseUrl);

@@ -1,8 +1,16 @@
 import axios from "axios";
 
-const API_URL = "https://657661050febac18d403d9cd.mockapi.io/api/v1";
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://api.iankamar-taskmanager.cbu.net"
+    : "http://localhost:3001";
+
 const TODOIST_API_TOKEN = "2b61d8158074902ceca67b61794de3fda171840d";
 
+/*
+const API_URL = "https://657661050febac18d403d9cd.mockapi.io/api/v1";
+const TODOIST_API_TOKEN = "2b61d8158074902ceca67b61794de3fda171840d";
+*/
 export const handleServerResponse = (res) => {
   console.log(process.env.NODE_ENV, API_URL);
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);

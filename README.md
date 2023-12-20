@@ -22,10 +22,8 @@ To start the application, navigate to the project directory in your terminal and
 
 npm start
 
-## GitHub
-
-[Website](https://iankamar.github.io/task-manager-frontend/)
-
 ## Related Respositories
 
-[task-manager-backend](https://github.com/iankamar/task-manager-backend)
+[Task-manager-backend](https://github.com/iankamar/task-manager-backend)
+
+## The application is optimized for desktop, mobile version coming soon
