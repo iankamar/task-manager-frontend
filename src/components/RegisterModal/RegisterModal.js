@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-//import axios from "axios";
+import axios from "axios";
 import { Modal } from "react-bootstrap";
 
 const RegisterModal = ({ setActiveModal }) => {
@@ -17,15 +17,16 @@ const RegisterModal = ({ setActiveModal }) => {
     e.preventDefault();
 
     try {
-      /* const response = await axios.post(
+      const response = await axios.post(
         "http://localhost:3001/api/register",
         user
-      ); */
+      );
+      /*
       const response = {
         data: {
           message: "Registration successful",
         },
-      };
+      };*/
       console.log(response.data);
       handleClose();
     } catch (error) {
