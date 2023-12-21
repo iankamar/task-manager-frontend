@@ -55,5 +55,5 @@
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   },
-  "homepage": "https://www.iankamar-taskmanager.cbu.net"
+  "homepage": "https://iankamar-taskmanager.netlify.app"
 }
