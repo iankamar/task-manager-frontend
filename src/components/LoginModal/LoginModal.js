@@ -17,16 +17,17 @@ const LoginModal = ({ setActiveModal }) => {
     e.preventDefault();
 
     try {
+      /*
       const response = await axios.post(
         "http://localhost:3001/api/login",
         credentials
       );
-      /*
+      */
       const response = {
         data: {
           message: "Login successful",
         },
-      };*/
+      };
       console.log(response.data);
       handleClose();
     } catch (error) {

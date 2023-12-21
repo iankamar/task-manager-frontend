@@ -17,16 +17,17 @@ const RegisterModal = ({ setActiveModal }) => {
     e.preventDefault();
 
     try {
+      /*
       const response = await axios.post(
         "http://localhost:3001/api/register",
         user
-      );
-      /*
+      );*/
+
       const response = {
         data: {
           message: "Registration successful",
         },
-      };*/
+      };
       console.log(response.data);
       handleClose();
     } catch (error) {
