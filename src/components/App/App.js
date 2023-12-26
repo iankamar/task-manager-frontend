@@ -105,7 +105,7 @@ const NavigationComponent = ({ tasks, setTasks }) => {
           navigate("/tasks");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error("Error registering user:", err));
   };
 
   const handleLogin = ({ email, password }) => {
@@ -196,7 +196,10 @@ const NavigationComponent = ({ tasks, setTasks }) => {
         <LoginModal setActiveModal={setActiveModal} />
       )}
       {activeModal === "register" && (
-        <RegisterModal setActiveModal={setActiveModal} />
+        <RegisterModal
+          setActiveModal={setActiveModal}
+          handleRegistration={handleRegistration}
+        />
       )}
       <Footer />
     </>

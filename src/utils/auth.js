@@ -1,20 +1,17 @@
 import { request } from "../utils/api";
-/*
+
 const baseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://api.iankamar-taskmanager.cbu.net"
+    ? "api-iankamar-taskmanager.azurewebsites.net"
     : "http://localhost:3001";
-*/
-const baseUrl = "https://657661050febac18d403d9cd.mockapi.io/api/v2";
-//const TODOIST_API_TOKEN = "2b61d8158074902ceca67b61794de3fda171840d";
 
-export const register = ({ name, avatar, email, password }) => {
+export const register = ({ email, password }) => {
   return request(`${baseUrl}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, avatar, email, password }),
+    body: JSON.stringify({ email, password }),
   });
 };
 
@@ -40,7 +37,7 @@ export const getUser = () => {
   });
 };
 
-export const updateUser = (name, avatar, token) => {
+export const updateUser = (name, token) => {
   return request(`${baseUrl}/users/me`, {
     method: "PATCH",
     headers: {
@@ -48,7 +45,7 @@ export const updateUser = (name, avatar, token) => {
       Accept: "application/json",
       authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ name, avatar }),
+    body: JSON.stringify({ name }),
   });
 };
 

@@ -11,6 +11,7 @@
     "bootstrap": "^5.3.2",
     "browserify-zlib": "^0.2.0",
     "core-js": "^2.5.7",
+    "cors": "^2.8.5",
     "gh-pages": "^6.1.0",
     "https-browserify": "^1.0.0",
     "react": "^18.2.0",
@@ -55,5 +56,5 @@
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   },
-  "homepage": "https://iankamar-taskmanager.netlify.app"
+  "homepage": "https://iankamar-taskmanager.azurewebsites.net"
 }
