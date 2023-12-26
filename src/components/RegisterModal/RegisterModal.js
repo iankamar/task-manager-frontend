@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-//import axios from "axios";
-import { Modal } from "react-bootstrap";
+// import axios from "axios";
+import { Alert, Modal } from "react-bootstrap";
 
-const RegisterModal = ({ setActiveModal }) => {
+const RegisterModal = ({ setActiveModal, handleRegistration }) => {
   const handleClose = () => {
     setActiveModal("");
   };
 
-  const [user, setUser] = useState({ username: "", email: "", password: "" });
+  const [user, setUser] = useState({ name: "", email: "", password: "" });
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -17,20 +18,20 @@ const RegisterModal = ({ setActiveModal }) => {
     e.preventDefault();
 
     try {
-      /*
-      const response = await axios.post(
-        "http://localhost:3001/api/register",
-        user
-      );*/
+      handleRegistration(user);
 
-      const response = {
-        data: {
-          message: "Registration successful",
-        },
-      };
-      console.log(response.data);
+      setErrorMsg("");
       handleClose();
     } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setErrorMsg(error.response.data.message);
+      } else {
+        setErrorMsg("An error occurred while registering");
+      }
       console.error("Error registering user:", error);
     }
   };
@@ -43,15 +44,22 @@ const RegisterModal = ({ setActiveModal }) => {
         </Modal.Header>
         <Modal.Body className="py-3">
           <form onSubmit={handleSubmit} className="register-form">
+            {errorMsg && (
+              <Alert variant="danger">
+                <div className="alert-body">
+                  <span>{`Error: ${errorMsg}`}</span>
+                </div>
+              </Alert>
+            )}
             <label>
-              Username:
+              Name:
               <input
                 type="text"
-                name="username"
-                value={user.username}
+                name="name"
+                value={user.name}
                 onChange={handleChange}
                 required
-                autoComplete="new-username"
+                autoComplete="new-name"
               />
             </label>
             <label>

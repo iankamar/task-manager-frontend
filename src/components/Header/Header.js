@@ -8,6 +8,7 @@ const Header = ({
   onCreateModal,
   openLoginModal,
   openRegisterModal,
+  handleLogout,
 }) => {
   const currentUser = useContext(CurrentUserContext);
 
@@ -16,14 +17,19 @@ const Header = ({
       <div className="header__avatar-logo">
         <div>
           {isLoggedIn ? (
-            <button
-              type="text"
-              onClick={onCreateModal}
-              className="header__item"
-            >
-              {" "}
-              + Add Task
-            </button>
+            <>
+              <button className="header__button me-3" onClick={handleLogout}>
+                Logout
+              </button>
+              <button
+                type="text"
+                onClick={onCreateModal}
+                className="header__item"
+              >
+                {" "}
+                + Add Task
+              </button>
+            </>
           ) : (
             <button className="header__button" onClick={openRegisterModal}>
               Register

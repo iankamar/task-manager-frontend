@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-//import axios from "axios";
-import { Modal } from "react-bootstrap";
+import { Alert, Modal } from "react-bootstrap";
 
-const LoginModal = ({ setActiveModal }) => {
+const LoginModal = ({ setActiveModal, handleLogin }) => {
   const handleClose = () => {
     setActiveModal("");
   };
 
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -17,21 +17,20 @@ const LoginModal = ({ setActiveModal }) => {
     e.preventDefault();
 
     try {
-      /*
-      const response = await axios.post(
-        "http://localhost:3001/api/login",
-        credentials
-      );
-      */
-      const response = {
-        data: {
-          message: "Login successful",
-        },
-      };
-      console.log(response.data);
+      handleLogin(credentials);
+      setErrorMsg("");
       handleClose();
     } catch (error) {
-      console.error("Error logging in:", error);
+      let errorMessage = "Error logging in";
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        errorMessage = error.response.data.message;
+      }
+      setErrorMsg(errorMessage);
+      console.error("Error logging in:", errorMessage);
     }
   };
 
@@ -43,6 +42,13 @@ const LoginModal = ({ setActiveModal }) => {
         </Modal.Header>
         <Modal.Body className="py-3">
           <form onSubmit={handleSubmit} className="login-form">
+            {errorMsg && (
+              <Alert variant="danger">
+                <div className="alert-body">
+                  <span>{`Error: ${errorMsg}`}</span>
+                </div>
+              </Alert>
+            )}
             <label>
               Email:
               <input

@@ -141,6 +141,7 @@ const NavigationComponent = ({ tasks, setTasks }) => {
         onLogout={handleLogout}
         openLoginModal={openLoginModal}
         openRegisterModal={openRegisterModal}
+        handleLogout={handleLogout}
       />
 
       <Routes>
