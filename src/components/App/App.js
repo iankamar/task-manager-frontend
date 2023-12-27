@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Main from "../Main/Main";
+import React, { useState } from "react";
 import { HashRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { AuthProvider } from "../../contexts/Authcontext";
 import { AuthContext } from "../../contexts/Authcontext";
@@ -13,17 +12,13 @@ import DeleteTask from "../DeleteTask/DeleteTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import TaskList from "../TaskList/TaskList";
 
-import {
-  getTaskList,
-  createTask,
-  deleteTask,
-  updateTask,
-} from "../../utils/api";
+import { createTask, deleteTask, updateTask } from "../../utils/api";
 import { register, login } from "../../utils/auth";
 import "./App.css";
 import LoginModal from "../LoginModal/LoginModal";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import RegisterModal from "../RegisterModal/RegisterModal";
+import Home from "../Home/home";
 
 const NavigationComponent = ({ tasks, setTasks }) => {
   const navigate = useNavigate();
@@ -33,6 +28,8 @@ const NavigationComponent = ({ tasks, setTasks }) => {
   const [activeModal, setActiveModal] = useState("");
   const [selectedTask, setSelectedTask] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [signinErr, setSiginErr] = useState("");
+  const [signupErr, setSignupErr] = useState("");
 
   const handleCloseModal = () => {
     setActiveModal("");
@@ -88,24 +85,20 @@ const NavigationComponent = ({ tasks, setTasks }) => {
       .finally(() => setIsLoading(false));
   };
 
-  useEffect(() => {
-    getTaskList()
-      .then((taskList) => {
-        setTasks(taskList);
-      })
-      .catch((error) => console.error(error));
-  }, [setTasks]);
-
-  const handleRegistration = ({ email, password }) => {
-    register({ email, password })
+  const handleRegistration = ({ email, password, name }) => {
+    register({ email, password, name })
       .then((res) => {
         if (res.token) {
           localStorage.setItem("token", res.token);
           setIsLoggedIn(true);
+          setSignupErr("");
+          setActiveModal("");
           navigate("/tasks");
         }
       })
-      .catch((err) => console.error("Error registering user:", err));
+      .catch((err) => {
+        setSignupErr(err.message);
+      });
   };
 
   const handleLogin = ({ email, password }) => {
@@ -114,10 +107,14 @@ const NavigationComponent = ({ tasks, setTasks }) => {
         if (res.token) {
           localStorage.setItem("token", res.token);
           setIsLoggedIn(true);
+          setSiginErr("");
+          setActiveModal("");
           navigate("/tasks");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setSiginErr(err.message);
+      });
   };
 
   const handleLogout = () => {
@@ -145,6 +142,7 @@ const NavigationComponent = ({ tasks, setTasks }) => {
       />
 
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route
           path="/register"
           element={<Register onRegister={handleRegistration} />}
@@ -186,18 +184,22 @@ const NavigationComponent = ({ tasks, setTasks }) => {
             />
           }
         />
-        <Route path="/" element={<Main />} />
       </Routes>
 
       {activeModal === "preview" && (
         <Task task={selectedTask} onCloseModal={handleCloseModal} />
       )}
       {activeModal === "login" && (
-        <LoginModal setActiveModal={setActiveModal} />
+        <LoginModal
+          setActiveModal={setActiveModal}
+          signinErr={signinErr}
+          handleLogin={handleLogin}
+        />
       )}
       {activeModal === "register" && (
         <RegisterModal
           setActiveModal={setActiveModal}
+          signupErr={signupErr}
           handleRegistration={handleRegistration}
         />
       )}

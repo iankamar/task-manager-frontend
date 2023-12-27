@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "./DeleteTask.css";
+import { deleteTask } from "../../utils/api";
 
 const DeleteTask = () => {
   const { taskId } = useParams();
@@ -8,9 +8,8 @@ const DeleteTask = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(
-        `https://657661050febac18d403d9cd.mockapi.io/api/v1/tasks/${taskId}`
-      );
+      await deleteTask(taskId);
+
       navigate("/tasks");
     } catch (error) {
       console.error("Error deleting task:", error);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "./CreateTask.css";
 import { useNavigate, Link } from "react-router-dom";
+import { createTask } from "../../utils/api";
 
 const CreateTask = () => {
   const navigate = useNavigate();
@@ -19,10 +19,8 @@ const CreateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "https://657661050febac18d403d9cd.mockapi.io/api/v1/tasks",
-        task
-      );
+      await createTask(task);
+
       navigate("/tasks");
     } catch (error) {
       console.error("Error creating task:", error);

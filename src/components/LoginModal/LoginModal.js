@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Alert, Modal } from "react-bootstrap";
 
-const LoginModal = ({ setActiveModal, handleLogin }) => {
+const LoginModal = ({ setActiveModal, handleLogin, signinErr }) => {
   const handleClose = () => {
     setActiveModal("");
   };
 
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -18,19 +17,8 @@ const LoginModal = ({ setActiveModal, handleLogin }) => {
 
     try {
       handleLogin(credentials);
-      setErrorMsg("");
-      handleClose();
     } catch (error) {
-      let errorMessage = "Error logging in";
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        errorMessage = error.response.data.message;
-      }
-      setErrorMsg(errorMessage);
-      console.error("Error logging in:", errorMessage);
+      console.error("Error logging in:", error.response.data);
     }
   };
 
@@ -42,10 +30,10 @@ const LoginModal = ({ setActiveModal, handleLogin }) => {
         </Modal.Header>
         <Modal.Body className="py-3">
           <form onSubmit={handleSubmit} className="login-form">
-            {errorMsg && (
+            {signinErr && (
               <Alert variant="danger">
                 <div className="alert-body">
-                  <span>{`Error: ${errorMsg}`}</span>
+                  <span>{`Error: ${signinErr}`}</span>
                 </div>
               </Alert>
             )}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./UpdateTask.css";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { getTask, updateTask } from "../../utils/api";
 
 const UpdateTask = () => {
   const { taskId } = useParams();
@@ -16,9 +16,7 @@ const UpdateTask = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get(
-          `https://657661050febac18d403d9cd.mockapi.io/api/v1/tasks/${taskId}`
-        );
+        const response = await getTask(taskId);
         setUpdatedTask({
           title: response.data.title,
           description: response.data.description,
@@ -40,10 +38,7 @@ const UpdateTask = () => {
   const handleUpdate = async (event) => {
     event.preventDefault();
     try {
-      await axios.put(
-        `https://657661050febac18d403d9cd.mockapi.io/api/v1/tasks/${taskId}`,
-        updatedTask
-      );
+      await updateTask(taskId, updatedTask);
       navigate("/tasks");
     } catch (error) {
       console.error("Error updating task:", error);

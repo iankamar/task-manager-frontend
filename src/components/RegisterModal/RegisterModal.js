@@ -1,14 +1,13 @@
-/*
 import React, { useState } from "react";
+// import axios from "axios";
 import { Alert, Modal } from "react-bootstrap";
 
-const RegisterModal = ({ setActiveModal, handleRegistration }) => {
+const RegisterModal = ({ setActiveModal, handleRegistration, signupErr }) => {
   const handleClose = () => {
     setActiveModal("");
   };
 
   const [user, setUser] = useState({ name: "", email: "", password: "" });
-  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -19,19 +18,7 @@ const RegisterModal = ({ setActiveModal, handleRegistration }) => {
 
     try {
       handleRegistration(user);
-
-      setErrorMsg("");
-      handleClose();
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setErrorMsg(error.response.data.message);
-      } else {
-        setErrorMsg("An error occurred while registering");
-      }
       console.error("Error registering user:", error);
     }
   };
@@ -44,10 +31,10 @@ const RegisterModal = ({ setActiveModal, handleRegistration }) => {
         </Modal.Header>
         <Modal.Body className="py-3">
           <form onSubmit={handleSubmit} className="register-form">
-            {errorMsg && (
+            {signupErr && (
               <Alert variant="danger">
                 <div className="alert-body">
-                  <span>{`Error: ${errorMsg}`}</span>
+                  <span>{`Error: ${signupErr}`}</span>
                 </div>
               </Alert>
             )}
@@ -95,7 +82,8 @@ const RegisterModal = ({ setActiveModal, handleRegistration }) => {
 };
 
 export default RegisterModal;
-*/
+
+/*
 import React, { useState } from "react";
 import { Alert, Modal } from "react-bootstrap";
 
@@ -198,3 +186,4 @@ const RegisterModal = ({ setActiveModal, handleRegistration }) => {
 };
 
 export default RegisterModal;
+*/
