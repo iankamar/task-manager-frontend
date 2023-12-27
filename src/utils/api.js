@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL =
   process.env.NODE_ENV === "production"
-    ? "api-iankamar-taskmanager.azurewebsites.net"
+    ? "https://api-iankamar-taskmanager.azurewebsites.net"
     : "http://localhost:3001";
 
 export const handleServerResponse = (res) => {
@@ -23,10 +23,10 @@ const api = axios.create({
   headers,
 });
 
-export const getTaskList = () => api.get("/tasks");
-export const createTask = (taskData) => api.post("/tasks", taskData);
+export const getTaskList = () => api.get("/api/tasks");
+export const createTask = (taskData) => api.post("/api/tasks", taskData);
 export const updateTask = (taskId, updatedTaskData) =>
-  api.post(`/tasks/${taskId}`, updatedTaskData);
-export const deleteTask = (taskId) => api.delete(`/tasks/${taskId}`);
+  api.post(`/api/tasks/${taskId}`, updatedTaskData);
+export const deleteTask = (taskId) => api.delete(`/api/tasks/${taskId}`);
 
 export default api;
