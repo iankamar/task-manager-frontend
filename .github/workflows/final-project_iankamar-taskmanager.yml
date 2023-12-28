@@ -59,4 +59,4 @@ jobs:
           app-name: 'iankamar-taskmanager'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_48DEA7938FCF4C35BD1062D376717BCA }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A5C2F31E15454475BF471495C795F73B }}
