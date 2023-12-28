@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import axios from "axios";
 import { Alert, Modal } from "react-bootstrap";
 
-const RegisterModal = ({ setActiveModal, handleRegistration, signupErr }) => {
+const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
   const handleClose = () => {
     setActiveModal("");
   };
@@ -18,6 +18,7 @@ const RegisterModal = ({ setActiveModal, handleRegistration, signupErr }) => {
 
     try {
       handleRegistration(user);
+      handleClose();
     } catch (error) {
       console.error("Error registering user:", error);
     }
@@ -31,10 +32,10 @@ const RegisterModal = ({ setActiveModal, handleRegistration, signupErr }) => {
         </Modal.Header>
         <Modal.Body className="py-3">
           <form onSubmit={handleSubmit} className="register-form">
-            {signupErr && (
+            {registerErr && (
               <Alert variant="danger">
                 <div className="alert-body">
-                  <span>{`Error: ${signupErr}`}</span>
+                  <span>{`Error: ${registerErr}`}</span>
                 </div>
               </Alert>
             )}

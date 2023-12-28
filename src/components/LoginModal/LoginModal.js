@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal } from "react-bootstrap";
 
-const LoginModal = ({ setActiveModal, handleLogin, signinErr }) => {
+const LoginModal = ({ setActiveModal, handleLogin, loginErr }) => {
   const handleClose = () => {
     setActiveModal("");
   };
@@ -17,6 +17,7 @@ const LoginModal = ({ setActiveModal, handleLogin, signinErr }) => {
 
     try {
       handleLogin(credentials);
+      handleClose();
     } catch (error) {
       console.error("Error logging in:", error.response.data);
     }
@@ -30,10 +31,10 @@ const LoginModal = ({ setActiveModal, handleLogin, signinErr }) => {
         </Modal.Header>
         <Modal.Body className="py-3">
           <form onSubmit={handleSubmit} className="login-form">
-            {signinErr && (
+            {loginErr && (
               <Alert variant="danger">
                 <div className="alert-body">
-                  <span>{`Error: ${signinErr}`}</span>
+                  <span>{`Error: ${loginErr}`}</span>
                 </div>
               </Alert>
             )}

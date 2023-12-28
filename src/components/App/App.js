@@ -28,8 +28,8 @@ const NavigationComponent = ({ tasks, setTasks }) => {
   const [activeModal, setActiveModal] = useState("");
   const [selectedTask, setSelectedTask] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [signinErr, setSiginErr] = useState("");
-  const [signupErr, setSignupErr] = useState("");
+  const [loginErr, setLoginErr] = useState("");
+  const [registerErr, setRegisterErr] = useState("");
 
   const handleCloseModal = () => {
     setActiveModal("");
@@ -88,32 +88,36 @@ const NavigationComponent = ({ tasks, setTasks }) => {
   const handleRegistration = ({ email, password, name }) => {
     register({ email, password, name })
       .then((res) => {
+        console.log("Registration response:", res);
         if (res.token) {
           localStorage.setItem("token", res.token);
           setIsLoggedIn(true);
-          setSignupErr("");
+          setRegisterErr("");
           setActiveModal("");
           navigate("/tasks");
         }
       })
       .catch((err) => {
-        setSignupErr(err.message);
+        console.log("Registration response:", err);
+        setRegisterErr(err.message);
       });
   };
 
   const handleLogin = ({ email, password }) => {
     login({ email, password })
       .then((res) => {
+        console.log("Login response:", res);
         if (res.token) {
           localStorage.setItem("token", res.token);
           setIsLoggedIn(true);
-          setSiginErr("");
+          setLoginErr("");
           setActiveModal("");
           navigate("/tasks");
         }
       })
       .catch((err) => {
-        setSiginErr(err.message);
+        console.log("Login response:", err);
+        setLoginErr(err.message);
       });
   };
 
@@ -192,14 +196,14 @@ const NavigationComponent = ({ tasks, setTasks }) => {
       {activeModal === "login" && (
         <LoginModal
           setActiveModal={setActiveModal}
-          signinErr={signinErr}
+          loginErr={loginErr}
           handleLogin={handleLogin}
         />
       )}
       {activeModal === "register" && (
         <RegisterModal
           setActiveModal={setActiveModal}
-          signupErr={signupErr}
+          registerErr={registerErr}
           handleRegistration={handleRegistration}
         />
       )}
