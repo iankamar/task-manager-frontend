@@ -24,4 +24,6 @@ npm start
 
 ## Related Respositories
 
-[task-manager-backend](https://github.com/iankamar/task-manager-backend)
+[Task-manager-backend](https://github.com/iankamar/task-manager-backend)
+
+## The application is optimized for desktop, mobile version coming soon

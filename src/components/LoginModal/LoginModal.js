@@ -1,77 +1,74 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { Alert, Modal } from "react-bootstrap";
 
-const LoginModal = ({
-  isOpen,
-  handleCloseModal,
-  handleLogin,
-  handleToggleModal,
-  showFormError,
-  isLoading,
-}) => {
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const [isFormFilled, setIsFormFilled] = useState(false);
-  const history = useHistory();
-
-  const handleChange = (event) => {
-    setCredentials({
-      ...credentials,
-      [event.target.name]: event.target.value,
-    });
-    setIsFormFilled(credentials.email !== "" && credentials.password !== "");
+const LoginModal = ({ setActiveModal, handleLogin, loginErr }) => {
+  const handleClose = () => {
+    setActiveModal("");
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleLogin(credentials.email, credentials.password);
-    history.push("/profile");
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      handleLogin(credentials);
+      handleClose();
+    } catch (error) {
+      console.error("Error logging in:", error.response.data);
+    }
   };
 
   return (
-    <ModalWithForm
-      className="modal__title"
-      isOpen={isOpen}
-      type="login"
-      title="Log in"
-      buttonText={
-        isLoading ? "Loading..." : isFormFilled ? " Log in" : "Log in"
-      }
-      onCloseModal={handleCloseModal}
-      onSubmit={handleSubmit}
-    >
-      <label className={showFormError ? "modal__labelError" : "modal__label"}>
-        {showFormError ? "Incorrect email or password" : "Email"}
-        <input
-          className={showFormError ? "modal__inputError" : "modal__input"}
-          type="email"
-          placeholder="Email"
-          value={credentials.email}
-          onChange={handleChange}
-          name="email"
-          required
-        />
-      </label>
-      <label className={showFormError ? "modal__labelError" : "modal__label"}>
-        {showFormError ? "Incorrect email or password" : "Password"}
-        <input
-          className={showFormError ? "modal__inputError" : "modal__input"}
-          type="password"
-          placeholder="Password"
-          value={credentials.password}
-          onChange={handleChange}
-          name="password"
-          required
-        />
-      </label>
-      <button
-        type="button"
-        className="modal__register"
-        onClick={handleToggleModal}
-      >
-        or Register
-      </button>
-    </ModalWithForm>
+    <>
+      <Modal show={true} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Login</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="py-3">
+          <form onSubmit={handleSubmit} className="login-form">
+            {loginErr && (
+              <Alert variant="danger">
+                <div className="alert-body">
+                  <span>{`Error: ${loginErr}`}</span>
+                </div>
+              </Alert>
+            )}
+            <label>
+              Email:
+              <input
+                type="email"
+                name="email"
+                className="form-control"
+                value={credentials.email}
+                onChange={handleChange}
+                required
+                autoComplete="current-email"
+              />
+            </label>
+            <label>
+              Password:
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                value={credentials.password}
+                onChange={handleChange}
+                required
+                autoComplete="current-password"
+              />
+            </label>
+            <button type="submit" className="submit-btn">
+              Login
+            </button>
+          </form>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 

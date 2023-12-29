@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const API_URL = "https://api.todoist.com/rest/v1";
-const TODOIST_API_TOKEN = "2b61d8158074902ceca67b61794de3fda171840d";
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://api-iankamar-taskmanager.azurewebsites.net/api"
+    : "http://localhost:3001/api";
 
 export const handleServerResponse = (res) => {
-  console.log(process.env.NODE_ENV, API_URL);
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 };
 
@@ -13,19 +14,61 @@ export const request = (url, options) => {
 };
 
 const headers = {
-  Authorization: `Bearer ${TODOIST_API_TOKEN}`,
-  "Content-Type": "application/json",
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    "Content-Type": "application/json",
+  },
 };
 
-const api = axios.create({
-  baseURL: API_URL,
-  headers,
-});
+export const getTaskList = async () => {
+  const headers = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  const response = await axios.get(`${API_URL}/tasks`, headers);
+  return response;
+};
 
-export const getTaskList = () => api.get("/tasks");
-export const createTask = (taskData) => api.post("/tasks", taskData);
-export const updateTask = (taskId, updatedTaskData) =>
-  api.post(`/tasks/${taskId}`, updatedTaskData);
-export const deleteTask = (taskId) => api.delete(`/tasks/${taskId}`);
+export const getTask = async (taskId) => {
+  const headers = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  const response = await axios.get(`${API_URL}/tasks/${taskId}`, headers);
+  return response;
+};
 
-export default api;
+export const createTask = async (taskData) => {
+  const headers = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  const response = await axios.post(`${API_URL}/tasks`, taskData, headers);
+  return response;
+};
+
+export const updateTask = async (taskId, updatedTaskData) => {
+  const headers = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  const response = await axios.put(
+    `${API_URL}/tasks/${taskId}`,
+    updatedTaskData,
+    headers
+  );
+  return response;
+};
+
+export const deleteTask = async (taskId) => {
+  const response = await axios.delete(`${API_URL}/tasks/${taskId}`, headers);
+  return response;
+};

@@ -1,25 +1,29 @@
-// DeleteTask.js
-import React from "react";
-import axios from "axios";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import "./DeleteTask.css";
+import { deleteTask } from "../../utils/api";
 
-const DeleteTask = ({ taskId }) => {
+const DeleteTask = () => {
+  const { taskId } = useParams();
+  const navigate = useNavigate();
+
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/tasks/${taskId}`
-      );
-      console.log(response.data);
+      await deleteTask(taskId);
+
+      navigate("/tasks");
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
 
   return (
-    <div className="delete-task-container">
+    <div className="container mt-3 delete-task-container">
       <button onClick={handleDelete} className="delete-btn">
         Delete Task
       </button>
+      <Link to="/tasks" className="btn btn-secondary">
+        Back to Task List
+      </Link>
     </div>
   );
 };

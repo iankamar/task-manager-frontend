@@ -1,9 +1,11 @@
-// UpdateTask.js
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "./UpdateTask.css";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { getTask, updateTask } from "../../utils/api";
 
-const UpdateTask = ({ taskId }) => {
+const UpdateTask = () => {
+  const { taskId } = useParams();
+  const navigate = useNavigate();
   const [updatedTask, setUpdatedTask] = useState({
     title: "",
     description: "",
@@ -11,24 +13,40 @@ const UpdateTask = ({ taskId }) => {
     status: "",
   });
 
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await getTask(taskId);
+        setUpdatedTask({
+          title: response.data.title,
+          description: response.data.description,
+          dueDate: response.data.dueDate,
+          status: response.data.status,
+        });
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, [taskId]);
+
   const handleChange = (e) => {
     setUpdatedTask({ ...updatedTask, [e.target.name]: e.target.value });
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (event) => {
+    event.preventDefault();
     try {
-      const response = await axios.put(
-        `http://localhost:your-backend-port/api/tasks/${taskId}`,
-        updatedTask
-      );
-      console.log(response.data);
+      await updateTask(taskId, updatedTask);
+      navigate("/tasks");
     } catch (error) {
       console.error("Error updating task:", error);
     }
   };
 
   return (
-    <div className="update-task-container">
+    <div className="container mt-3 update-task-container">
       <h2>Update Task</h2>
       <form onSubmit={handleUpdate} className="update-task-form">
         <label>
@@ -74,6 +92,9 @@ const UpdateTask = ({ taskId }) => {
         <button type="submit" className="update-btn">
           Update Task
         </button>
+        <Link to="/tasks" className="btn btn-secondary">
+          Back to Task List
+        </Link>
       </form>
     </div>
   );

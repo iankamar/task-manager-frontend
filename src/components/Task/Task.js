@@ -1,5 +1,5 @@
-// Task.js
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Task.css";
 
 const Task = ({ task }) => {
@@ -15,6 +15,15 @@ const Task = ({ task }) => {
           <strong>Status:</strong> {task.status}
         </p>
         {/* Additional details */}
+      </div>
+      <div className="task-btn-group">
+        {/* Use Link for update and delete buttons */}
+        <Link to={`/update-task/${task.id}`} className="task-update">
+          Update
+        </Link>
+        <Link to={`/delete-task/${task.id}`} className="task-delete">
+          Delete
+        </Link>
       </div>
       {/* ... Display other task details */}
     </div>

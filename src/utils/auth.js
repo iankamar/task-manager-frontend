@@ -1,26 +1,33 @@
 import { request } from "../utils/api";
+import axios from "axios";
 
-const baseUrl = process.env.NODE_ENV === "http://localhost:3001";
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api-iankamar-taskmanager.azurewebsites.net/api"
+    : "http://localhost:3001/api";
 
-export const register = ({ name, avatar, email, password }) => {
-  console.log(process.env.NODE_ENV, baseUrl);
-  return request(`${baseUrl}/signup`, {
+export const register = ({ email, password, name }) => {
+  return request(`${baseUrl}/auth/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, avatar, email, password }),
+    body: JSON.stringify({ name, email, password }),
   });
 };
 
-export const login = ({ email, password }) => {
-  return request(`${baseUrl}/signin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
+export const login = async ({ email, password }) => {
+  try {
+    const res = await axios.post(`${baseUrl}/auth/signin`, { email, password });
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    if (err.response && err.response.status === 400) {
+      return Promise.reject({ message: err.response.data.message });
+    } else {
+      return Promise.reject({ message: "An error occurred during login" });
+    }
+  }
 };
 
 export const getUser = () => {

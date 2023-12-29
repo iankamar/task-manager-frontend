@@ -1,9 +1,10 @@
-// CreateTask.js
 import React, { useState } from "react";
-import axios from "axios";
 import "./CreateTask.css";
+import { useNavigate, Link } from "react-router-dom";
+import { createTask } from "../../utils/api";
 
 const CreateTask = () => {
+  const navigate = useNavigate();
   const [task, setTask] = useState({
     title: "",
     description: "",
@@ -17,20 +18,17 @@ const CreateTask = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post(
-        "http://localhost:your-backend-port/api/tasks",
-        task
-      );
-      console.log(response.data);
+      await createTask(task);
+
+      navigate("/tasks");
     } catch (error) {
       console.error("Error creating task:", error);
     }
   };
 
   return (
-    <div className="create-task-container">
+    <div className="container mt-3 create-task-container">
       <h2>Create Task</h2>
       <form onSubmit={handleSubmit} className="task-form">
         <label>
@@ -72,6 +70,9 @@ const CreateTask = () => {
         <button type="submit" className="submit-btn">
           Create Task
         </button>
+        <Link to="/tasks" className="btn btn-secondary">
+          Back to Task List
+        </Link>
       </form>
     </div>
   );

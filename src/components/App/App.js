@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import React, { useState } from "react";
+import { HashRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { AuthProvider } from "../../contexts/Authcontext";
 import { AuthContext } from "../../contexts/Authcontext";
 import Header from "../Header/Header";
@@ -17,14 +12,13 @@ import DeleteTask from "../DeleteTask/DeleteTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import TaskList from "../TaskList/TaskList";
 
-import {
-  getTaskList,
-  createTask,
-  deleteTask,
-  updateTask,
-} from "../../utils/api";
+import { createTask, deleteTask, updateTask } from "../../utils/api";
 import { register, login } from "../../utils/auth";
 import "./App.css";
+import LoginModal from "../LoginModal/LoginModal";
+import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import RegisterModal from "../RegisterModal/RegisterModal";
+import Home from "../Home/home";
 
 const NavigationComponent = ({ tasks, setTasks }) => {
   const navigate = useNavigate();
@@ -34,6 +28,8 @@ const NavigationComponent = ({ tasks, setTasks }) => {
   const [activeModal, setActiveModal] = useState("");
   const [selectedTask, setSelectedTask] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [loginErr, setLoginErr] = useState("");
+  const [registerErr, setRegisterErr] = useState("");
 
   const handleCloseModal = () => {
     setActiveModal("");
@@ -89,36 +85,40 @@ const NavigationComponent = ({ tasks, setTasks }) => {
       .finally(() => setIsLoading(false));
   };
 
-  useEffect(() => {
-    getTaskList()
-      .then((taskList) => {
-        setTasks(taskList);
-      })
-      .catch((error) => console.error(error));
-  }, [setTasks]);
-
-  const handleRegistration = ({ email, password }) => {
-    register({ email, password })
+  const handleRegistration = ({ email, password, name }) => {
+    register({ email, password, name })
       .then((res) => {
+        console.log("Registration response:", res);
         if (res.token) {
           localStorage.setItem("token", res.token);
           setIsLoggedIn(true);
+          setRegisterErr("");
+          setActiveModal("");
           navigate("/tasks");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log("Registration response:", err);
+        setRegisterErr(err.message);
+      });
   };
 
   const handleLogin = ({ email, password }) => {
     login({ email, password })
       .then((res) => {
+        console.log("Login response:", res);
         if (res.token) {
           localStorage.setItem("token", res.token);
           setIsLoggedIn(true);
+          setLoginErr("");
+          setActiveModal("");
           navigate("/tasks");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log("Login response:", err);
+        setLoginErr(err.message);
+      });
   };
 
   const handleLogout = () => {
@@ -127,11 +127,26 @@ const NavigationComponent = ({ tasks, setTasks }) => {
     navigate("/");
   };
 
+  const openLoginModal = () => {
+    setActiveModal("login");
+  };
+
+  const openRegisterModal = () => {
+    setActiveModal("register");
+  };
+
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <Header
+        isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
+        openLoginModal={openLoginModal}
+        openRegisterModal={openRegisterModal}
+        handleLogout={handleLogout}
+      />
 
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route
           path="/register"
           element={<Register onRegister={handleRegistration} />}
@@ -178,6 +193,20 @@ const NavigationComponent = ({ tasks, setTasks }) => {
       {activeModal === "preview" && (
         <Task task={selectedTask} onCloseModal={handleCloseModal} />
       )}
+      {activeModal === "login" && (
+        <LoginModal
+          setActiveModal={setActiveModal}
+          loginErr={loginErr}
+          handleLogin={handleLogin}
+        />
+      )}
+      {activeModal === "register" && (
+        <RegisterModal
+          setActiveModal={setActiveModal}
+          registerErr={registerErr}
+          handleRegistration={handleRegistration}
+        />
+      )}
       <Footer />
     </>
   );
@@ -189,9 +218,9 @@ const App = () => {
   return (
     <AuthProvider>
       <AuthContext.Provider value={tasks}>
-        <Router>
+        <HashRouter>
           <NavigationComponent tasks={tasks} setTasks={setTasks} />
-        </Router>
+        </HashRouter>
       </AuthContext.Provider>
     </AuthProvider>
   );
