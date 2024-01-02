@@ -1,0 +1,21 @@
+.task-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.task-form input,
+.task-form textarea,
+.task-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+.task-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
