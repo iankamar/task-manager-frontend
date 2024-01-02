@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { HashRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "../../contexts/Authcontext";
-import { AuthContext } from "../../contexts/Authcontext";
+//import { AuthContext } from "../../contexts/Authcontext";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Register from "../Register/Register";
@@ -11,20 +11,23 @@ import CreateTask from "../CreateTask/CreateTask";
 import DeleteTask from "../DeleteTask/DeleteTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import TaskList from "../TaskList/TaskList";
-
 import { createTask, deleteTask, updateTask } from "../../utils/api";
 import { register, login } from "../../utils/auth";
-import "./App.css";
-import LoginModal from "../LoginModal/LoginModal";
+import { useNavigate } from "react-router-dom";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import Home from "../Home/home";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-const NavigationComponent = ({ tasks, setTasks }) => {
+const NavigationComponent = ({
+  tasks,
+  setTasks,
+  isLoggedIn,
+  setIsLoggedIn,
+}) => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("token") ? true : false
-  );
   const [activeModal, setActiveModal] = useState("");
   const [selectedTask, setSelectedTask] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -154,7 +157,11 @@ const NavigationComponent = ({ tasks, setTasks }) => {
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route
           path="/tasks"
-          element={<TaskList tasks={tasks} onTaskClick={handleSelectedTask} />}
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <TaskList tasks={tasks} onTaskClick={handleSelectedTask} />
+            </PrivateRoute>
+          }
         />
         <Route
           path="/create-task"
@@ -214,14 +221,28 @@ const NavigationComponent = ({ tasks, setTasks }) => {
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("token") ? true : false
+  );
+  const currentUser = {
+    tasks,
+    setTasks,
+    isLoggedIn,
+    setIsLoggedIn,
+  };
 
   return (
     <AuthProvider>
-      <AuthContext.Provider value={tasks}>
+      <CurrentUserContext.Provider value={currentUser}>
         <HashRouter>
-          <NavigationComponent tasks={tasks} setTasks={setTasks} />
+          <NavigationComponent
+            tasks={tasks}
+            setTasks={setTasks}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+          />
         </HashRouter>
-      </AuthContext.Provider>
+      </CurrentUserContext.Provider>
     </AuthProvider>
   );
 };
