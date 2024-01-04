@@ -26,4 +26,10 @@ npm start
 
 [Task-manager-backend](https://github.com/iankamar/task-manager-backend)
 
+## Accessing the Application
+
+To access the application, use the following domain:
+
+- Domain: [Ian Kamar's TASK MANAGER](https://iankamar-taskmanager.azurewebsites.net)
+
 ## The application is optimized for desktop, mobile version coming soon

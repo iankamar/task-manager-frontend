@@ -1,11 +1,12 @@
 import { request } from "../utils/api";
 import axios from "axios";
-
+const baseUrl = "https://api-iankamar-taskmanager.azurewebsites.net";
+/*
 const baseUrl =
   process.env.NODE_ENV === "production"
     ? "https://api-iankamar-taskmanager.azurewebsites.net/api"
     : "http://localhost:3001/api";
-
+*/
 export const register = ({ email, password, name }) => {
   return request(`${baseUrl}/auth/signup`, {
     method: "POST",
