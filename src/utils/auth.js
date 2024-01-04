@@ -1,6 +1,6 @@
 import { request } from "../utils/api";
 import axios from "axios";
-const baseUrl = "https://api-iankamar-taskmanager.azurewebsites.net";
+const baseUrl = "https://api-iankamar-taskmanager.azurewebsites.net/api";
 /*
 const baseUrl =
   process.env.NODE_ENV === "production"
