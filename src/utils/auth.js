@@ -1,5 +1,4 @@
 import { request } from "../utils/api";
-import axios from "axios";
 const baseUrl = "https://api-iankamar-taskmanager.azurewebsites.net/api";
 
 //my deployed backend url https://api-iankamar-taskmanager.azurewebsites.net
@@ -21,8 +20,15 @@ export const register = ({ email, password, name }) => {
 
 export const login = async ({ email, password }) => {
   try {
-    const res = await axios.post(`${baseUrl}/auth/signin`, { email, password });
-    return res.data;
+    const res = await fetch(`${baseUrl}/auth/signin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    return data;
   } catch (err) {
     console.log(err);
     if (err.response && err.response.status === 400) {
