@@ -2,13 +2,16 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import "./DeleteTask.css";
 import { deleteTask } from "../../utils/api";
 
-const DeleteTask = () => {
+const DeleteTask = ({ tasks, setTasks }) => {
   const { taskId } = useParams();
   const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
       await deleteTask(taskId);
+
+      const updatedTasks = tasks.filter((task) => task.id !== parseInt(taskId));
+      setTasks(updatedTasks);
 
       navigate("/tasks");
     } catch (error) {

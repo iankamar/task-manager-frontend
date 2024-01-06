@@ -11,6 +11,7 @@ const CreateTask = () => {
     dueDate: "",
     status: "in-progress",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setTask({ ...task, [e.target.name]: e.target.value });
@@ -19,8 +20,13 @@ const CreateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createTask(task);
+      // Form validation logic...
+      if (!task.title || !task.description || !task.dueDate) {
+        setError("Please fill in all required fields.");
+        return;
+      }
 
+      await createTask(task);
       navigate("/tasks");
     } catch (error) {
       console.error("Error creating task:", error);
@@ -67,6 +73,7 @@ const CreateTask = () => {
             <option value="completed">Completed</option>
           </select>
         </label>
+        {error && <p className="error-message">{error}</p>}
         <button type="submit" className="submit-btn">
           Create Task
         </button>

@@ -1,9 +1,16 @@
-// PrivateRoute.js
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 
-const PrivateRoute = ({ children, isLoggedIn, ...props }) => {
-  return isLoggedIn ? children : <Navigate to="/login" />;
+const PrivateRoute = ({ element, isLoggedIn, ...rest }) => {
+  if (!isLoggedIn) {
+    sessionStorage.setItem("intendedRoute", rest.location.pathname);
+  }
+
+  return isLoggedIn ? (
+    <Route {...rest} element={element} />
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 export default PrivateRoute;

@@ -1,7 +1,5 @@
 import { request } from "../utils/api";
-import axios from "axios";
-
-const baseUrl = "https://api-iankamar-taskmanager.azurewebsites.net/api";
+const API_URL = "https://api-iankamar-taskmanager.azurewebsites.net/api";
 
 //my deployed backend url https://api-iankamar-taskmanager.azurewebsites.net
 /*
@@ -10,8 +8,25 @@ const baseUrl =
     ? "https://api-iankamar-taskmanager.azurewebsites.net/api"
     : "http://localhost:3001/api";
 */
+
+const handleServerResponse = (res) => {
+  if (!res.ok) {
+    throw new Error(`HTTP error! status: ${res.status}`);
+  }
+  return res.json();
+};
+
+const handleError = (error) => {
+  console.error("An error occurred:", error);
+  return Promise.reject(error.message || error);
+};
+
+export const makeRequest = (url, options) => {
+  return fetch(url, options).then(handleServerResponse).catch(handleError);
+};
+
 export const register = ({ email, password, name }) => {
-  return request(`${baseUrl}/auth/signup`, {
+  return request(`${API_URL}/auth/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,12 +37,19 @@ export const register = ({ email, password, name }) => {
 
 export const login = async ({ email, password }) => {
   try {
-    const res = await axios.post(`${baseUrl}/auth/signin`, { email, password });
-    return res.data;
+    const response = await request(`${API_URL}/auth/signin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    return response;
   } catch (err) {
-    console.log(err);
-    if (err.response && err.response.status === 400) {
-      return Promise.reject({ message: err.response.data.message });
+    console.error(err);
+    if (err.status === 400) {
+      return Promise.reject({ message: "Invalid credentials" });
     } else {
       return Promise.reject({ message: "An error occurred during login" });
     }
@@ -35,31 +57,29 @@ export const login = async ({ email, password }) => {
 };
 
 export const getUser = () => {
-  return request(`${baseUrl}/users/me`, {
+  return request(`${API_URL}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-  }).then((data) => {
-    return data;
   });
 };
 
 export const updateUser = (name, avatar, token) => {
-  return request(`${baseUrl}/users/me`, {
+  return request(`${API_URL}/users/me`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ name, avatar }),
   });
 };
 
 export const authorize = (email, password) => {
-  return request(`${baseUrl}/signin`, {
+  return request(`${API_URL}/signin`, {
     method: "POST",
     headers: {
       Accept: "application/json",
