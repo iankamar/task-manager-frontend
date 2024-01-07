@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./CreateTask.css";
 import { useNavigate, Link } from "react-router-dom";
-import { createTask } from "../../utils/taskApi";
+import { createTask } from "../../utils/api";
 
 const CreateTask = () => {
   const navigate = useNavigate();
@@ -11,7 +11,6 @@ const CreateTask = () => {
     dueDate: "",
     status: "in-progress",
   });
-  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setTask({ ...task, [e.target.name]: e.target.value });
@@ -20,12 +19,8 @@ const CreateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!task.title || !task.description || !task.dueDate) {
-        setError("Please fill in all required fields.");
-        return;
-      }
-
       await createTask(task);
+
       navigate("/tasks");
     } catch (error) {
       console.error("Error creating task:", error);
@@ -72,7 +67,6 @@ const CreateTask = () => {
             <option value="completed">Completed</option>
           </select>
         </label>
-        {error && <p className="error-message">{error}</p>}
         <button type="submit" className="submit-btn">
           Create Task
         </button>

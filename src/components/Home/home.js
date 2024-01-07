@@ -14,7 +14,7 @@ const Home = () => {
         The author's attention to detail ensures that your task management
         process is both smooth and effective.
       </div>
-      <Link to="/getTask">Go to Tasks</Link>
+      <Link to="/tasks">Go to Tasks</Link>
     </div>
   );
 };

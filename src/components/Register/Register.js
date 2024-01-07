@@ -49,15 +49,27 @@ const Register = () => {
       return;
     }
 
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    };
+
     try {
-      const response = await fetch("http://localhost:3001/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        "http://localhost:3001/api/register",
+        requestOptions
+      );
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to register user. Status code: ${response.status}`
+        );
+      }
+
       console.log(data);
     } catch (error) {
       console.error("Error registering user:", error);

@@ -3,7 +3,7 @@ import Task from "../Task/Task";
 import "./TaskList.css";
 import { Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getTaskList } from "../../utils/taskApi";
+import { getTaskList } from "../../utils/api";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -14,7 +14,7 @@ const TaskList = () => {
       setLoading(true);
       try {
         const response = await getTaskList();
-        setTasks(response.data);
+        setTasks(response);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching tasks:", error);

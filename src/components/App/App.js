@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "../../contexts/Authcontext";
+//import { AuthContext } from "../../contexts/Authcontext";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Register from "../Register/Register";
@@ -10,16 +11,15 @@ import CreateTask from "../CreateTask/CreateTask";
 import DeleteTask from "../DeleteTask/DeleteTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import TaskList from "../TaskList/TaskList";
-import { createTask, deleteTask, updateTask } from "../../utils/taskApi";
-import { register, login } from "../../utils/authApi";
+import { createTask, deleteTask, updateTask } from "../../utils/api";
+import { register, login } from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import Home from "../Home/home";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
-import { ModalProvider, useModalContext } from "../../contexts/ModalContext";
-import { checkTokenValidity } from "../../utils/auth";
 
 const NavigationComponent = ({
   tasks,
@@ -28,16 +28,17 @@ const NavigationComponent = ({
   setIsLoggedIn,
 }) => {
   const navigate = useNavigate();
-
-  const { activeModal, setActiveModal, handleCloseModal } = useModalContext();
-
+  const [activeModal, setActiveModal] = useState("");
   const [selectedTask, setSelectedTask] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [loginErr, setLoginErr] = useState("");
   const [registerErr, setRegisterErr] = useState("");
 
+  const handleCloseModal = () => {
+    setActiveModal("");
+  };
+
   const handleSelectedTask = (task) => {
-    handleCloseModal();
     setActiveModal("preview");
     setSelectedTask(task);
   };
@@ -95,19 +96,10 @@ const NavigationComponent = ({
           localStorage.setItem("token", res.token);
           setIsLoggedIn(true);
           setRegisterErr("");
-          setActiveModal("");
+          handleCloseModal();
           navigate("/tasks");
-
-          checkTokenValidity(res.token)
-            .then((isValid) => {
-              if (!isValid) {
-                localStorage.removeItem("token");
-                setIsLoggedIn(false);
-              }
-            })
-            .catch((err) => {
-              console.error("Error checking token validity:", err);
-            });
+        } else if (res.message !== "User successfully registered") {
+          setRegisterErr(res.message);
         }
       })
       .catch((err) => {
@@ -124,24 +116,15 @@ const NavigationComponent = ({
           localStorage.setItem("token", res.token);
           setIsLoggedIn(true);
           setLoginErr("");
-          setActiveModal("");
+          handleCloseModal();
           navigate("/tasks");
-
-          checkTokenValidity(res.token)
-            .then((isValid) => {
-              if (!isValid) {
-                localStorage.removeItem("token");
-                setIsLoggedIn(false);
-              }
-            })
-            .catch((err) => {
-              console.error("Error checking token validity:", err);
-            });
+        } else {
+          setLoginErr(res.message);
         }
       })
       .catch((err) => {
-        console.error("An error occurred during login");
-        setLoginErr("An error occurred during login");
+        console.log("Login response:", err);
+        setLoginErr(err.message);
       });
   };
 
@@ -166,6 +149,7 @@ const NavigationComponent = ({
         onLogout={handleLogout}
         openLoginModal={openLoginModal}
         openRegisterModal={openRegisterModal}
+        handleLogout={handleLogout}
       />
 
       <Routes>
@@ -174,9 +158,9 @@ const NavigationComponent = ({
           path="/register"
           element={<Register onRegister={handleRegistration} />}
         />
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/login" element={<Login handleLogin={handleLogin} />} />
         <Route
-          path="/tasks/*"
+          path="/tasks"
           element={
             <PrivateRoute isLoggedIn={isLoggedIn}>
               <TaskList tasks={tasks} onTaskClick={handleSelectedTask} />
@@ -186,33 +170,39 @@ const NavigationComponent = ({
         <Route
           path="/create-task"
           element={
-            <CreateTask
-              onCloseModal={handleCloseModal}
-              onAddTask={handleCreateTask}
-              isLoading={isLoading}
-            />
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <CreateTask
+                onCloseModal={handleCloseModal}
+                onAddTask={handleCreateTask}
+                isLoading={isLoading}
+              />
+            </PrivateRoute>
           }
         />
         <Route
           path="/update-task/:taskId"
           element={
-            <UpdateTask
-              task={selectedTask}
-              onCloseModal={handleCloseModal}
-              onUpdateTask={handleUpdateTask}
-              isLoading={isLoading}
-            />
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <UpdateTask
+                task={selectedTask}
+                onCloseModal={handleCloseModal}
+                onUpdateTask={handleUpdateTask}
+                isLoading={isLoading}
+              />
+            </PrivateRoute>
           }
         />
         <Route
           path="/delete-task/:taskId"
           element={
-            <DeleteTask
-              task={selectedTask}
-              onCloseModal={handleCloseModal}
-              onDeleteTask={handleDeleteTask}
-              isLoading={isLoading}
-            />
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <DeleteTask
+                task={selectedTask}
+                onCloseModal={handleCloseModal}
+                onDeleteTask={handleDeleteTask}
+                isLoading={isLoading}
+              />
+            </PrivateRoute>
           }
         />
       </Routes>
@@ -222,14 +212,14 @@ const NavigationComponent = ({
       )}
       {activeModal === "login" && (
         <LoginModal
-          setActiveModal={setActiveModal}
+          onCloseModal={handleCloseModal}
           loginErr={loginErr}
           handleLogin={handleLogin}
         />
       )}
       {activeModal === "register" && (
         <RegisterModal
-          setActiveModal={setActiveModal}
+          onCloseModal={handleCloseModal}
           registerErr={registerErr}
           handleRegistration={handleRegistration}
         />
@@ -255,14 +245,12 @@ const App = () => {
     <AuthProvider>
       <CurrentUserContext.Provider value={currentUser}>
         <HashRouter>
-          <ModalProvider>
-            <NavigationComponent
-              tasks={tasks}
-              setTasks={setTasks}
-              isLoggedIn={isLoggedIn}
-              setIsLoggedIn={setIsLoggedIn}
-            />
-          </ModalProvider>
+          <NavigationComponent
+            tasks={tasks}
+            setTasks={setTasks}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+          />
         </HashRouter>
       </CurrentUserContext.Provider>
     </AuthProvider>

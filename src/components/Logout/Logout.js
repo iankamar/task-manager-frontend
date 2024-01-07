@@ -1,15 +1,27 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import "./Logout.css";
 
 const Logout = () => {
   const handleLogout = async () => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
     try {
-      const response = await fetch("http://localhost:3001/api/logout", {
-        method: "POST",
-      });
+      const response = await fetch(
+        "http://localhost:3001/api/logout",
+        requestOptions
+      );
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(`Failed to log out. Status code: ${response.status}`);
+      }
+
       console.log(data);
-      localStorage.removeItem("token");
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -25,12 +37,3 @@ const Logout = () => {
 };
 
 export default Logout;
-
-// Route configuration
-<Router>
-  <Route path="/login" component={Login} />
-  <Route
-    path="/tasks"
-    render={() => (isLoggedIn ? <Tasks /> : <Redirect to="/login" />)}
-  />
-</Router>;

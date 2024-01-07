@@ -18,10 +18,10 @@ const Task = ({ task }) => {
       </div>
       <div className="task-btn-group">
         {/* Use Link for update and delete buttons */}
-        <Link to={`/update-task/${task.id}`} className="task-update">
+        <Link to={`/update-task/${task._id}`} className="task-update">
           Update
         </Link>
-        <Link to={`/delete-task/${task.id}`} className="task-delete">
+        <Link to={`/delete-task/${task._id}`} className="task-delete">
           Delete
         </Link>
       </div>

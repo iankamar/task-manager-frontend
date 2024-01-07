@@ -1,36 +1,26 @@
 import React, { useState } from "react";
 import { Alert, Modal } from "react-bootstrap";
 
-const LoginModal = ({ setActiveModal, handleLogin, loginErr }) => {
-  const handleClose = () => {
-    setActiveModal("");
-  };
-
+const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!credentials.email || !credentials.password) {
-      console.error("Error logging in: Both fields are required.");
-      return;
-    }
 
     try {
       handleLogin(credentials);
-      handleClose();
     } catch (error) {
-      console.error("Error logging in:", error.response.data);
+      console.error("Error logging in:", error);
     }
   };
 
   return (
     <>
-      <Modal show={true} onHide={handleClose}>
+      <Modal show={true} onHide={onCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
         </Modal.Header>

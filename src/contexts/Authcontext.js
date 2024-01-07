@@ -1,8 +1,10 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
-import { getTaskList } from "../utils/taskApi";
+import { getTaskList } from "../utils/api";
 
+// Define the AuthContext
 export const AuthContext = createContext();
 
+// Define the useAuth hook
 export function useAuth() {
   const context = useContext(AuthContext);
 
@@ -13,6 +15,7 @@ export function useAuth() {
   return context;
 }
 
+// Define the AuthProvider component
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -20,13 +23,11 @@ export function AuthProvider({ children }) {
   const saveProfile = async (token) => {
     try {
       const response = await getTaskList();
-
-      if (!response.ok) {
+      if (!response) {
         throw new Error("Profile fetch failed");
       }
 
-      const profile = await response.json();
-      setProfile(profile);
+      setProfile(response);
     } catch (error) {
       console.error("Failed to fetch profile:", error);
     }

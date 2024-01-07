@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal } from "react-bootstrap";
 
-const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
-  const handleClose = () => {
-    setActiveModal("");
-  };
-
+const RegisterModal = ({ onCloseModal, handleRegistration, registerErr }) => {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
   const [errors, setErrors] = useState({ name: "", email: "", password: "" });
 
@@ -14,47 +10,20 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
   };
 
   const validateForm = () => {
-    let formErrors = { name: "", email: "", password: "" };
-    let valid = true;
-
-    // Validate name
-    if (!user.name.trim()) {
-      formErrors.name = "Name is required";
-      valid = false;
-    }
-
-    // Validate email
-    if (!user.email.trim()) {
-      formErrors.email = "Email is required";
-      valid = false;
-    } else if (!/\S+@\S+\.\S+/.test(user.email)) {
-      formErrors.email = "Email address is invalid";
-      valid = false;
-    }
-
-    // Validate password
-    if (!user.password) {
-      formErrors.password = "Password is required";
-      valid = false;
-    } else if (user.password.length < 6) {
-      formErrors.password = "Password needs to be 6 characters or more";
-      valid = false;
-    }
-
+    let formErrors = {};
+    if (!user.name) formErrors.name = "Name is required";
+    if (!user.email) formErrors.email = "Email is required";
+    if (!user.password) formErrors.password = "Password is required";
     setErrors(formErrors);
-    return valid;
+    return Object.keys(formErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
-
+    if (!validateForm()) return;
     try {
       handleRegistration(user);
-      handleClose();
+      onCloseModal();
     } catch (error) {
       console.error("Error registering user:", error);
     }
@@ -62,7 +31,7 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
 
   return (
     <>
-      <Modal show={true} onHide={handleClose}>
+      <Modal show={true} onHide={onCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
@@ -85,7 +54,7 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
                 required
                 autoComplete="new-name"
               />
-              {errors.name && <p>{errors.name}</p>}
+              {errors.name && <div className="error">{errors.name}</div>}
             </label>
             <label>
               Email:
@@ -97,7 +66,7 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
                 required
                 autoComplete="new-email"
               />
-              {errors.email && <p>{errors.email}</p>}
+              {errors.email && <div className="error">{errors.email}</div>}
             </label>
             <label>
               Password:
@@ -109,7 +78,9 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
                 required
                 autoComplete="new-password"
               />
-              {errors.password && <p>{errors.password}</p>}
+              {errors.password && (
+                <div className="error">{errors.password}</div>
+              )}
             </label>
             <button type="submit" className="submit-btn">
               Register
