@@ -15,6 +15,11 @@ const LoginModal = ({ setActiveModal, handleLogin, loginErr }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!credentials.email || !credentials.password) {
+      console.error("Error logging in: Both fields are required.");
+      return;
+    }
+
     try {
       handleLogin(credentials);
       handleClose();

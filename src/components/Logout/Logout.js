@@ -1,12 +1,15 @@
 import React from "react";
-import axios from "axios";
-import "./Logout.css";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 const Logout = () => {
   const handleLogout = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/api/logout");
-      console.log(response.data);
+      const response = await fetch("http://localhost:3001/api/logout", {
+        method: "POST",
+      });
+      const data = await response.json();
+      console.log(data);
+      localStorage.removeItem("token");
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -22,3 +25,12 @@ const Logout = () => {
 };
 
 export default Logout;
+
+// Route configuration
+<Router>
+  <Route path="/login" component={Login} />
+  <Route
+    path="/tasks"
+    render={() => (isLoggedIn ? <Tasks /> : <Redirect to="/login" />)}
+  />
+</Router>;

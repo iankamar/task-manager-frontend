@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import axios from "axios";
 import { Alert, Modal } from "react-bootstrap";
 
 const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
@@ -8,13 +7,50 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
   };
 
   const [user, setUser] = useState({ name: "", email: "", password: "" });
+  const [errors, setErrors] = useState({ name: "", email: "", password: "" });
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    let formErrors = { name: "", email: "", password: "" };
+    let valid = true;
+
+    // Validate name
+    if (!user.name.trim()) {
+      formErrors.name = "Name is required";
+      valid = false;
+    }
+
+    // Validate email
+    if (!user.email.trim()) {
+      formErrors.email = "Email is required";
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(user.email)) {
+      formErrors.email = "Email address is invalid";
+      valid = false;
+    }
+
+    // Validate password
+    if (!user.password) {
+      formErrors.password = "Password is required";
+      valid = false;
+    } else if (user.password.length < 6) {
+      formErrors.password = "Password needs to be 6 characters or more";
+      valid = false;
+    }
+
+    setErrors(formErrors);
+    return valid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       handleRegistration(user);
@@ -49,6 +85,7 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
                 required
                 autoComplete="new-name"
               />
+              {errors.name && <p>{errors.name}</p>}
             </label>
             <label>
               Email:
@@ -60,6 +97,7 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
                 required
                 autoComplete="new-email"
               />
+              {errors.email && <p>{errors.email}</p>}
             </label>
             <label>
               Password:
@@ -71,6 +109,7 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
                 required
                 autoComplete="new-password"
               />
+              {errors.password && <p>{errors.password}</p>}
             </label>
             <button type="submit" className="submit-btn">
               Register
@@ -83,108 +122,3 @@ const RegisterModal = ({ setActiveModal, handleRegistration, registerErr }) => {
 };
 
 export default RegisterModal;
-
-/*
-import React, { useState } from "react";
-import { Alert, Modal } from "react-bootstrap";
-
-const RegisterModal = ({ setActiveModal, handleRegistration }) => {
-  const handleClose = () => {
-    setActiveModal("");
-  };
-
-  const [user, setUser] = useState({ name: "", email: "", password: "" });
-  const [errorMsg, setErrorMsg] = useState("");
-
-  const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      if (typeof handleRegistration !== "function") {
-        console.error(
-          "handleRegistration is not a function. Received:",
-          handleRegistration
-        );
-        throw new Error("handleRegistration is not a function");
-      }
-
-      handleRegistration(user);
-
-      setErrorMsg("");
-      handleClose();
-    } catch (error) {
-      let errorMessage = "Error registering user";
-
-      if (error && error.message) {
-        errorMessage = error.message;
-      }
-
-      setErrorMsg(errorMessage);
-      console.error("Error registering user:", errorMessage);
-    }
-  };
-
-  return (
-    <>
-      <Modal show={true} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Register</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="py-3">
-          <form onSubmit={handleSubmit} className="register-form">
-            {errorMsg && (
-              <Alert variant="danger">
-                <div className="alert-body">
-                  <span>{`Error: ${errorMsg}`}</span>
-                </div>
-              </Alert>
-            )}
-            <label>
-              Name:
-              <input
-                type="text"
-                name="name"
-                value={user.name}
-                onChange={handleChange}
-                required
-                autoComplete="new-name"
-              />
-            </label>
-            <label>
-              Email:
-              <input
-                type="email"
-                name="email"
-                value={user.email}
-                onChange={handleChange}
-                required
-                autoComplete="new-email"
-              />
-            </label>
-            <label>
-              Password:
-              <input
-                type="password"
-                name="password"
-                value={user.password}
-                onChange={handleChange}
-                required
-                autoComplete="new-password"
-              />
-            </label>
-            <button type="submit" className="submit-btn">
-              Register
-            </button>
-          </form>
-        </Modal.Body>
-      </Modal>
-    </>
-  );
-};
-
-export default RegisterModal;
-*/

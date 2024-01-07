@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "./ForgotPassword.css";
 
 const ForgotPassword = () => {
@@ -9,11 +8,18 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
+      const response = await fetch(
         "http://localhost:3001/api/forgot-password",
-        { email }
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
       );
-      console.log(response.data);
+      const data = await response.json();
+      console.log(data);
     } catch (error) {
       console.error("Error sending forgot password email:", error);
     }
