@@ -20,7 +20,6 @@ const CreateTask = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Form validation logic...
       if (!task.title || !task.description || !task.dueDate) {
         setError("Please fill in all required fields.");
         return;

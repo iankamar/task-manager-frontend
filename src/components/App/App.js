@@ -19,6 +19,7 @@ import Home from "../Home/home";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import { ModalProvider, useModalContext } from "../../contexts/ModalContext";
+import { checkTokenValidity } from "../../utils/auth";
 
 const NavigationComponent = ({
   tasks,
