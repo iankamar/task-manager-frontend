@@ -3,7 +3,7 @@ import Task from "../Task/Task";
 import "./TaskList.css";
 import { Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getTaskList } from "../../utils/api";
+import { getTaskList } from "../../utils/taskApi";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);

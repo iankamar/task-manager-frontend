@@ -15,5 +15,7 @@ const handleError = (error) => {
 };
 
 export const request = (url, options) => {
-  return fetch(url, options).then(handleServerResponse).catch(handleError);
+  return fetch(API_URL + url, options)
+    .then(handleServerResponse)
+    .catch(handleError);
 };

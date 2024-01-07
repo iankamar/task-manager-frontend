@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./UpdateTask.css";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { getTask, updateTask } from "../../utils/api";
+import { getTask, updateTask } from "../../utils/taskApi";
 
 const UpdateTask = ({ handleCloseModal }) => {
   const { taskId } = useParams();

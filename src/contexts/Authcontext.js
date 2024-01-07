@@ -1,10 +1,8 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
-import { getTaskList } from "../utils/api";
+import { getTaskList } from "../utils/taskApi";
 
-// Define the AuthContext
 export const AuthContext = createContext();
 
-// Define the useAuth hook
 export function useAuth() {
   const context = useContext(AuthContext);
 
@@ -15,7 +13,6 @@ export function useAuth() {
   return context;
 }
 
-// Define the AuthProvider component
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState(null);

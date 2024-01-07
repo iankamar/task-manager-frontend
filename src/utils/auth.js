@@ -1,4 +1,4 @@
-import { getUser } from "./userApi";
+import { getUser } from "./authApi";
 
 export const checkTokenValidity = async (token) => {
   try {
