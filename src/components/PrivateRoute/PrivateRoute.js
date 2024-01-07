@@ -1,9 +1,11 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Route, Navigate, useLocation } from "react-router-dom";
 
 const PrivateRoute = ({ element, isLoggedIn, ...rest }) => {
+  const location = useLocation();
+
   if (!isLoggedIn) {
-    sessionStorage.setItem("intendedRoute", rest.location.pathname);
+    sessionStorage.setItem("intendedRoute", location.pathname);
   }
 
   return isLoggedIn ? (

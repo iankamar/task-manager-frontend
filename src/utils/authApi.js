@@ -5,6 +5,9 @@ const API_URL = "https://api-iankamar-taskmanager.azurewebsites.net/api";
 export const register = ({ email, password, name }) => {
   return request(`${API_URL}/auth/signup`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ name, email, password }),
   });
 };
@@ -12,6 +15,9 @@ export const register = ({ email, password, name }) => {
 export const login = async ({ email, password }) => {
   const response = await request(`${API_URL}/auth/signin`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ email, password }),
   });
   return response;
