@@ -1,5 +1,6 @@
 import React from "react";
 import "./Logout.css";
+import { baseUrl } from "../../utils/authApi";
 
 const Logout = () => {
   const handleLogout = async () => {
@@ -11,10 +12,7 @@ const Logout = () => {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/logout",
-        requestOptions
-      );
+      const response = await fetch(`${baseUrl}/api/logout`, requestOptions);
       const data = await response.json();
 
       if (!response.ok) {

@@ -4,16 +4,19 @@ import CreateTask from "../CreateTask/CreateTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import DeleteTask from "../DeleteTask/DeleteTask";
 import { deleteTask, createTask, updateTask } from "../../utils/api";
+import { useAppContext } from "../../context/AppContext";
 
 const Main = () => {
   const [tasks, setTasks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [activeModal, setActiveModal] = useState("");
-
-  const handleCloseModal = () => {
-    setActiveModal("");
-  };
+  const {
+    isLoading,
+    setIsLoading,
+    selectedTask,
+    setSelectedTask,
+    activeModal,
+    setActiveModal,
+    handleCloseModal,
+  } = useAppContext();
 
   const handleSelectedTask = (task) => {
     setActiveModal("preview");
@@ -30,9 +33,6 @@ const Main = () => {
         setTasks(updatedTasks);
         handleCloseModal();
       })
-      .catch((err) => {
-        console.error("Error deleting task:", err);
-      })
       .finally(() => setIsLoading(false));
   };
 
@@ -42,9 +42,6 @@ const Main = () => {
       .then((addedTask) => {
         setTasks([addedTask, ...tasks]);
         handleCloseModal();
-      })
-      .catch((err) => {
-        console.error("Error creating task:", err);
       })
       .finally(() => setIsLoading(false));
   };
@@ -58,9 +55,6 @@ const Main = () => {
         );
         setTasks(updatedTasks);
         handleCloseModal();
-      })
-      .catch((err) => {
-        console.error("Error updating task:", err);
       })
       .finally(() => setIsLoading(false));
   };

@@ -1,6 +1,6 @@
 import { request } from "./api";
 
-const baseUrl = "https://api-iankamar-taskmanager.azurewebsites.net/api";
+export const baseUrl = "https://api-iankamar-taskmanager.azurewebsites.net/api";
 
 export const register = async ({ email, password, name }) => {
   const requestOptions = {

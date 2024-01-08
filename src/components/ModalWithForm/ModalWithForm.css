@@ -1,16 +1,10 @@
-/* Modal styles */
 .modal-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(
-    255,
-    255,
-    255,
-    5
-  ); /* Increased opacity for white background */
+  background: rgba(255, 255, 255, 5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +14,7 @@
   background: #fff;
   padding: 20px;
   border-radius: 8px;
-  max-width: 400px; /* Limited the width for Create and Update Task Modals */
+  max-width: 400px;
 }
 
 /* Form styles */
@@ -76,7 +70,7 @@
 
 /* Delete button styles */
 .delete-btn {
-  background-color: #f31111; /* Back to red color for Delete button */
+  background-color: #f31111;
   color: #fff;
   padding: 8px;
   cursor: pointer;

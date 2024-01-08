@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Register.css";
+import { baseUrl } from "../../utils/authApi";
 
 const Register = () => {
   const [user, setUser] = useState({ username: "", email: "", password: "" });
@@ -58,10 +59,7 @@ const Register = () => {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/register",
-        requestOptions
-      );
+      const response = await fetch(`${baseUrl}/api/register`, requestOptions);
       const data = await response.json();
 
       if (!response.ok) {
