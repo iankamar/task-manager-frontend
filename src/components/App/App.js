@@ -50,13 +50,15 @@ const NavigationComponent = ({
           (task) => task.id !== selectedTask.id
         );
         setTasks(updatedTasks);
-        handleCloseModal();
       })
       .catch((err) => {
         console.error("Error deleting task:", err);
         setActiveModal("delete-error");
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        handleCloseModal();
+      });
   };
 
   const handleCreateTask = (task) => {
@@ -64,13 +66,15 @@ const NavigationComponent = ({
     createTask(task)
       .then((addedTask) => {
         setTasks([addedTask, ...tasks]);
-        handleCloseModal();
       })
       .catch((err) => {
         console.error("Error creating task:", err);
         setActiveModal("create-error");
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        handleCloseModal();
+      });
   };
 
   const handleUpdateTask = (task) => {
@@ -81,13 +85,15 @@ const NavigationComponent = ({
           t.id === updatedTask.id ? updatedTask : t
         );
         setTasks(updatedTasks);
-        handleCloseModal();
       })
       .catch((err) => {
         console.error("Error updating task:", err);
         setActiveModal("update-error");
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        handleCloseModal();
+      });
   };
 
   const handleRegistration = ({ email, password, name }) => {
