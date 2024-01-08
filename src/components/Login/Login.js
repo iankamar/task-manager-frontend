@@ -31,8 +31,8 @@ const Login = ({ handleLogin }) => {
     <div className="login-container">
       <h2>Login</h2>
       <form onSubmit={handleSubmit} className="login-form">
-        <label>
-          Email:
+        <div>
+          <label>Email:</label>
           <input
             type="email"
             name="email"
@@ -41,9 +41,9 @@ const Login = ({ handleLogin }) => {
             required
           />
           {errors.email && <div className="error">{errors.email}</div>}
-        </label>
-        <label>
-          Password:
+        </div>
+        <div>
+          <label>Password:</label>
           <input
             type="password"
             name="password"
@@ -52,7 +52,7 @@ const Login = ({ handleLogin }) => {
             required
           />
           {errors.password && <div className="error">{errors.password}</div>}
-        </label>
+        </div>
         <button type="submit" className="submit-btn">
           Login
         </button>

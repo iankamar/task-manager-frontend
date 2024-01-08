@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "../../contexts/Authcontext";
-//import { AuthContext } from "../../contexts/Authcontext";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Register from "../Register/Register";
@@ -55,6 +54,7 @@ const NavigationComponent = ({
       })
       .catch((err) => {
         console.error("Error deleting task:", err);
+        setActiveModal("delete-error");
       })
       .finally(() => setIsLoading(false));
   };
@@ -68,6 +68,7 @@ const NavigationComponent = ({
       })
       .catch((err) => {
         console.error("Error creating task:", err);
+        setActiveModal("create-error");
       })
       .finally(() => setIsLoading(false));
   };
@@ -84,6 +85,7 @@ const NavigationComponent = ({
       })
       .catch((err) => {
         console.error("Error updating task:", err);
+        setActiveModal("update-error");
       })
       .finally(() => setIsLoading(false));
   };
@@ -224,6 +226,33 @@ const NavigationComponent = ({
           handleRegistration={handleRegistration}
         />
       )}
+      {activeModal === "delete-error" && (
+        <DeleteTask
+          task={selectedTask}
+          onCloseModal={handleCloseModal}
+          onDeleteTask={handleDeleteTask}
+          isLoading={isLoading}
+          showError={true}
+        />
+      )}
+      {activeModal === "create-error" && (
+        <CreateTask
+          onCloseModal={handleCloseModal}
+          onAddTask={handleCreateTask}
+          isLoading={isLoading}
+          showError={true}
+        />
+      )}
+      {activeModal === "update-error" && (
+        <UpdateTask
+          task={selectedTask}
+          onCloseModal={handleCloseModal}
+          onUpdateTask={handleUpdateTask}
+          isLoading={isLoading}
+          showError={true}
+        />
+      )}
+
       <Footer />
     </>
   );

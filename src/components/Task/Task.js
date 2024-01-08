@@ -13,8 +13,7 @@ const Task = ({ task }) => {
       </p>
       <div className="task-details">
         <p>
-          <strong>Due Date:</strong>{" "}
-          {new Date(task.dueDate).toLocaleDateString()}
+          <strong>Due Date:</strong> {task.dueDate}
         </p>
         <p>
           <strong>Status:</strong> {task.status}

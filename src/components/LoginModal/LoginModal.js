@@ -42,8 +42,8 @@ const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
                 </div>
               </Alert>
             )}
-            <label>
-              Email:
+            <div>
+              <label>Email:</label>
               <input
                 type="email"
                 name="email"
@@ -54,9 +54,9 @@ const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
                 autoComplete="current-email"
               />
               {errors.email && <div className="error">{errors.email}</div>}
-            </label>
-            <label>
-              Password:
+            </div>
+            <div>
+              <label>Password:</label>
               <input
                 type="password"
                 name="password"
@@ -69,7 +69,7 @@ const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
               {errors.password && (
                 <div className="error">{errors.password}</div>
               )}
-            </label>
+            </div>
 
             <button type="submit" className="submit-btn">
               Login

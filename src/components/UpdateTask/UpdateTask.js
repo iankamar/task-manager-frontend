@@ -6,17 +6,22 @@ import { getTask, updateTask } from "../../utils/taskApi";
 const UpdateTask = () => {
   const { taskId } = useParams();
   const navigate = useNavigate();
-  const [updatedTask, setUpdatedTask] = useState(null);
+  const [updatedTask, setUpdatedTask] = useState({
+    title: "",
+    description: "",
+    dueDate: "",
+    status: "",
+  });
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const response = await getTask(taskId);
         setUpdatedTask({
-          title: response.title,
-          description: response.description,
-          dueDate: response.dueDate,
-          status: response.status,
+          title: response.title || "",
+          description: response.description || "",
+          dueDate: response.dueDate || "",
+          status: response.status || "",
         });
       } catch (error) {
         console.error("Error fetching tasks:", error);
@@ -34,7 +39,9 @@ const UpdateTask = () => {
     event.preventDefault();
     try {
       await updateTask(taskId, updatedTask);
-      navigate("/tasks");
+      setTimeout(() => {
+        navigate("/tasks");
+      }, 0);
     } catch (error) {
       console.error("Error updating task:", error);
     }
