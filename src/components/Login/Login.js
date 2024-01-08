@@ -50,6 +50,7 @@ const Login = ({ handleLogin }) => {
             value={credentials.password}
             onChange={handleChange}
             required
+            autoComplete="on"
           />
           {errors.password && <div className="error">{errors.password}</div>}
         </div>
