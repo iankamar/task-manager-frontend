@@ -5,11 +5,16 @@ import "./Task.css";
 const Task = ({ task }) => {
   return (
     <div className="task-container">
-      <h3 className="task-title">{task.title}</h3>
-      <p className="task-description">{task.description}</p>
+      <p>
+        <strong>Title:</strong> {task.title}
+      </p>
+      <p>
+        <strong>Description:</strong> {task.description}
+      </p>
       <div className="task-details">
         <p>
-          <strong>Due Date:</strong> {task.dueDate}
+          <strong>Due Date:</strong>{" "}
+          {new Date(task.dueDate).toLocaleDateString()}
         </p>
         <p>
           <strong>Status:</strong> {task.status}
