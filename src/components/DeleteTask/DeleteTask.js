@@ -1,5 +1,5 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
-import "./DeleteTask.css";
+import "../ModalWithForm/ModalWithForm.css";
 import { deleteTask } from "../../utils/taskApi";
 
 const DeleteTask = () => {
@@ -9,7 +9,6 @@ const DeleteTask = () => {
   const handleDelete = async () => {
     try {
       await deleteTask(taskId);
-
       navigate("/tasks");
     } catch (error) {
       console.error("Error deleting task:", error);
@@ -17,7 +16,7 @@ const DeleteTask = () => {
   };
 
   return (
-    <div className="container mt-3 delete-task-container">
+    <div className="modal-container mt-3 delete-task-container">
       <button onClick={handleDelete} className="delete-btn">
         Delete Task
       </button>
