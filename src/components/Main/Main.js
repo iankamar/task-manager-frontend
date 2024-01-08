@@ -3,8 +3,6 @@ import TaskList from "../TaskList/TaskList";
 import CreateTask from "../CreateTask/CreateTask";
 import UpdateTask from "../UpdateTask/UpdateTask";
 import DeleteTask from "../DeleteTask/DeleteTask";
-//import Task from "../Task/Task";
-//import { useNavigate } from "react-router-dom";
 import { deleteTask, createTask, updateTask } from "../../utils/api";
 
 const Main = () => {
