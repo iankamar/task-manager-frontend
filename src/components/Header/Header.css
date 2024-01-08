@@ -1,0 +1,138 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 92px;
+  padding: 0 20px;
+  height: 40px;
+  font-size: 16px;
+  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
+}
+
+.header__logo {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  z-index: 400;
+}
+
+.header__avatar-logo {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.header__item {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.avatar__placeholder {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  font-size: 24px;
+  font-family: "CabinetGrotesk-Regular", sans-serif;
+}
+
+.header__avatarIcon {
+  height: 40px;
+  width: 40px;
+  grid-area: e;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.header__username {
+  margin-left: 20px;
+  margin-right: 12px;
+  grid-area: d;
+  color: black;
+}
+
+.header__avatarPlaceholder {
+  height: 40px;
+  width: 40px;
+  grid-area: e;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-family: "CabinetGrotesk-Regular", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__avatarIcon {
+  height: 40px;
+  width: 40px;
+  grid-area: e;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.header__button {
+  margin: 0px;
+  margin-left: 20px;
+  border: 0;
+  background-color: transparent;
+  grid-area: c;
+  padding: 0px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.header__button:hover {
+  cursor: pointer;
+}
+
+.header__profileLink {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (min-width: 750px) and (max-width: 900px) {
+  .header {
+    font-size: 14px;
+    padding: 20px;
+  }
+}
+
+@media screen and (min-width: 490px) and (max-width: 750px) {
+  .header__username {
+    margin-right: 0;
+    margin-left: auto;
+  }
+  .header__avatarIcon {
+    margin-right: 0;
+    padding-left: 10px;
+  }
+  .header__button {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .header__username {
+    font-size: 14px;
+    margin: auto;
+  }
+  .header__avatarIcon {
+    margin: auto;
+    padding-bottom: 5px;
+  }
+  .header__button {
+    margin: 15px;
+  }
+  .header__avatar {
+    margin-right: 0;
+  }
+}
