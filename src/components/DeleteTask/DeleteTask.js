@@ -1,6 +1,6 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 import "./DeleteTask.css";
-import { deleteTask } from "../../utils/api";
+import { deleteTask } from "../../utils/taskApi";
 
 const DeleteTask = () => {
   const { taskId } = useParams();

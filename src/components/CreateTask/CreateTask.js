@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./CreateTask.css";
 import { useNavigate, Link } from "react-router-dom";
-import { createTask } from "../../utils/api";
+import { createTask } from "../../utils/taskApi";
 
 const CreateTask = () => {
   const navigate = useNavigate();
