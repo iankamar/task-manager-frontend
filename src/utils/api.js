@@ -1,12 +1,5 @@
 const API_URL = "https://api-iankamar-taskmanager.azurewebsites.net/api";
 
-//my deployed backend url https://api-iankamar-taskmanager.azurewebsites.net
-/*
-const API_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://api-iankamar-taskmanager.azurewebsites.net/api"
-    : "http://localhost:3001/api";
-*/
 export const handleServerResponse = (res) => {
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 };

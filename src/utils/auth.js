@@ -2,13 +2,6 @@ import { request } from "../utils/api";
 
 const baseUrl = "https://api-iankamar-taskmanager.azurewebsites.net/api";
 
-//my deployed backend url https://api-iankamar-taskmanager.azurewebsites.net
-/*
-const baseUrl =
-  process.env.NODE_ENV === "production"
-    ? "https://api-iankamar-taskmanager.azurewebsites.net/api"
-    : "http://localhost:3001/api";
-*/
 export const register = async ({ email, password, name }) => {
   const requestOptions = {
     method: "POST",
@@ -20,20 +13,22 @@ export const register = async ({ email, password, name }) => {
 
   try {
     const response = await fetch(`${baseUrl}/auth/signup`, requestOptions);
-    const data = await response.json();
 
     if (!response.ok) {
-      return data;
+      throw new Error(
+        "Error: Error Signing up. Please check your credentials."
+      );
     }
 
+    const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error Register:", error);
-    return error;
+    console.error("Error Register:", error.message);
+    throw error;
   }
 };
 
-export const login = ({ email, password }) => {
+export const login = async ({ email, password }) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -42,19 +37,24 @@ export const login = ({ email, password }) => {
     body: JSON.stringify({ email, password }),
   };
 
-  return fetch(`${baseUrl}/auth/signin`, requestOptions)
-    .then((response) => {
-      if (!response.ok) {
-        return response.json().then((data) => {
-          throw new Error(`${data.message}`);
-        });
+  try {
+    const response = await fetch(`${baseUrl}/auth/signin`, requestOptions);
+
+    if (!response.ok) {
+      if (response.headers.get("content-type").includes("application/json")) {
+        const data = await response.json();
+        throw new Error(`Error logging in: ${data.message}`);
+      } else {
+        throw new Error("Error logging in. Please check your credentials.");
       }
-      return response.json();
-    })
-    .catch((error) => {
-      console.error("Error logging in:", error);
-      return error;
-    });
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error logging in:", error.message);
+    throw error;
+  }
 };
 
 export const getUser = () => {

@@ -3,14 +3,23 @@ import { Alert, Modal } from "react-bootstrap";
 
 const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    let formErrors = {};
+    if (!credentials.email) formErrors.email = "Email is required";
+    if (!credentials.password) formErrors.password = "Password is required";
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    if (!validateForm()) return;
     try {
       handleLogin(credentials);
     } catch (error) {
@@ -44,6 +53,7 @@ const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
                 required
                 autoComplete="current-email"
               />
+              {errors.email && <div className="error">{errors.email}</div>}
             </label>
             <label>
               Password:
@@ -56,7 +66,11 @@ const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
                 required
                 autoComplete="current-password"
               />
+              {errors.password && (
+                <div className="error">{errors.password}</div>
+              )}
             </label>
+
             <button type="submit" className="submit-btn">
               Login
             </button>
