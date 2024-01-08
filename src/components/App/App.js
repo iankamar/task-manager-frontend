@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AppProvider } from "../../contexts/AppContext";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "../../contexts/Authcontext";
 import Header from "../Header/Header";
@@ -19,6 +20,7 @@ import RegisterModal from "../RegisterModal/RegisterModal";
 import Home from "../Home/home";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { useAppContext } from "../../contexts/AppContext";
 
 const NavigationComponent = ({
   tasks,
@@ -27,15 +29,19 @@ const NavigationComponent = ({
   setIsLoggedIn,
 }) => {
   const navigate = useNavigate();
-  const [activeModal, setActiveModal] = useState("");
-  const [selectedTask, setSelectedTask] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [loginErr, setLoginErr] = useState("");
-  const [registerErr, setRegisterErr] = useState("");
-
-  const handleCloseModal = () => {
-    setActiveModal("");
-  };
+  const {
+    activeModal,
+    setActiveModal,
+    selectedTask,
+    setSelectedTask,
+    isLoading,
+    setIsLoading,
+    loginErr,
+    setLoginErr,
+    registerErr,
+    setRegisterErr,
+    handleCloseModal,
+  } = useAppContext();
 
   const handleSelectedTask = (task) => {
     setActiveModal("preview");
@@ -50,6 +56,7 @@ const NavigationComponent = ({
           (task) => task.id !== selectedTask.id
         );
         setTasks(updatedTasks);
+        handleCloseModal();
       })
       .catch((err) => {
         console.error("Error deleting task:", err);
@@ -57,7 +64,6 @@ const NavigationComponent = ({
       })
       .finally(() => {
         setIsLoading(false);
-        handleCloseModal();
       });
   };
 
@@ -66,6 +72,7 @@ const NavigationComponent = ({
     createTask(task)
       .then((addedTask) => {
         setTasks([addedTask, ...tasks]);
+        handleCloseModal();
       })
       .catch((err) => {
         console.error("Error creating task:", err);
@@ -73,7 +80,6 @@ const NavigationComponent = ({
       })
       .finally(() => {
         setIsLoading(false);
-        handleCloseModal();
       });
   };
 
@@ -85,6 +91,7 @@ const NavigationComponent = ({
           t.id === updatedTask.id ? updatedTask : t
         );
         setTasks(updatedTasks);
+        handleCloseModal();
       })
       .catch((err) => {
         console.error("Error updating task:", err);
@@ -92,7 +99,6 @@ const NavigationComponent = ({
       })
       .finally(() => {
         setIsLoading(false);
-        handleCloseModal();
       });
   };
 
@@ -278,16 +284,18 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <CurrentUserContext.Provider value={currentUser}>
-        <HashRouter>
-          <NavigationComponent
-            tasks={tasks}
-            setTasks={setTasks}
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-          />
-        </HashRouter>
-      </CurrentUserContext.Provider>
+      <AppProvider>
+        <CurrentUserContext.Provider value={currentUser}>
+          <HashRouter>
+            <NavigationComponent
+              tasks={tasks}
+              setTasks={setTasks}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          </HashRouter>
+        </CurrentUserContext.Provider>
+      </AppProvider>
     </AuthProvider>
   );
 };
