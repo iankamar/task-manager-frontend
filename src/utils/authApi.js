@@ -1,8 +1,9 @@
 import { request } from "./api";
 
-export const baseUrl = "https://api-iankamar-taskmanager.azurewebsites.net/api";
-//export const baseUrl = "http://localhost:3001/api";
-
+export const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api-iankamar-taskmanager.azurewebsites.net/api"
+    : "http://localhost:3001/api";
 export const register = async ({ email, password, name }) => {
   const requestOptions = {
     method: "POST",
