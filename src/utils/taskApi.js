@@ -1,7 +1,7 @@
 import { request } from "./api";
 
-//const API_URL = "https://api-iankamar-taskmanager.azurewebsites.net/api";
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://api-iankamar-taskmanager.azurewebsites.net/api";
+//const API_URL = "http://localhost:3001/api";
 
 export const getTaskList = async () => {
   const token = localStorage.getItem("token");
