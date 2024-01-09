@@ -21,6 +21,7 @@ import Home from "../Home/home";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import { useAppContext } from "../../contexts/AppContext";
+import checkRequests from "../HOC";
 
 const NavigationComponent = ({
   tasks,
@@ -275,6 +276,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("token") ? true : false
   );
+
   const currentUser = {
     tasks,
     setTasks,
@@ -282,12 +284,14 @@ const App = () => {
     setIsLoggedIn,
   };
 
+  const EnhancedNavigationComponent = checkRequests(NavigationComponent);
+
   return (
     <AuthProvider>
       <AppProvider>
         <CurrentUserContext.Provider value={currentUser}>
           <HashRouter>
-            <NavigationComponent
+            <EnhancedNavigationComponent
               tasks={tasks}
               setTasks={setTasks}
               isLoggedIn={isLoggedIn}

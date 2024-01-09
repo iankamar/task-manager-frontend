@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../ModalWithForm/ModalWithForm.css";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getTask, updateTask } from "../../utils/taskApi";
+import { Alert } from "react-bootstrap";
+import classnames from "classnames";
 
 const UpdateTask = ({ onCloseModal }) => {
   const { taskId } = useParams();
@@ -12,6 +14,9 @@ const UpdateTask = ({ onCloseModal }) => {
     dueDate: "",
     status: "",
   });
+
+  const [errors, setErrors] = useState({});
+  const [taskAlert, setTaskAlert] = useState("");
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -33,18 +38,37 @@ const UpdateTask = ({ onCloseModal }) => {
 
   const handleChange = (e) => {
     setUpdatedTask({ ...updatedTask, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (updatedTask.title.trim() === "") {
+      newErrors.title = "Title is required";
+    }
+    if (updatedTask.description.trim() === "") {
+      newErrors.description = "Description is required";
+    }
+    if (updatedTask.dueDate.trim() === "") {
+      newErrors.dueDate = "Due date is required";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleUpdate = async (event) => {
     event.preventDefault();
-    try {
-      await updateTask(taskId, updatedTask);
-      onCloseModal();
-      setTimeout(() => {
-        navigate("/tasks");
-      }, 0);
-    } catch (error) {
-      console.error("Error updating task:", error);
+    if (validateForm()) {
+      try {
+        await updateTask(taskId, updatedTask);
+        onCloseModal();
+        setTimeout(() => {
+          navigate("/tasks");
+        }, 0);
+      } catch (error) {
+        setTaskAlert(error);
+        console.error("Error updating task:", error);
+      }
     }
   };
 
@@ -57,6 +81,13 @@ const UpdateTask = ({ onCloseModal }) => {
         <h2>Update Task</h2>
         {updatedTask && (
           <form onSubmit={handleUpdate}>
+            {taskAlert && (
+              <Alert variant="danger">
+                <div className="alert-body">
+                  <span>{`${taskAlert}`}</span>
+                </div>
+              </Alert>
+            )}
             <label className="form-label">
               Title:
               <input
@@ -64,9 +95,13 @@ const UpdateTask = ({ onCloseModal }) => {
                 name="title"
                 value={updatedTask.title}
                 onChange={handleChange}
-                className="form-input"
-                required
+                className={`form-input ${classnames({
+                  "is-invalid": errors.title,
+                })}`}
               />
+              {errors.title && (
+                <span className="small text-danger">{errors.title}</span>
+              )}
             </label>
             <label className="form-label">
               Description:
@@ -74,9 +109,13 @@ const UpdateTask = ({ onCloseModal }) => {
                 name="description"
                 value={updatedTask.description}
                 onChange={handleChange}
-                className="form-textarea"
-                required
+                className={`form-textarea ${classnames({
+                  "is-invalid": errors.description,
+                })}`}
               />
+              {errors.description && (
+                <span className="small text-danger">{errors.description}</span>
+              )}
             </label>
             <label className="form-label">
               Due Date:
@@ -85,9 +124,13 @@ const UpdateTask = ({ onCloseModal }) => {
                 name="dueDate"
                 value={updatedTask.dueDate}
                 onChange={handleChange}
-                className="form-input"
-                required
+                className={`form-input ${classnames({
+                  "is-invalid": errors.dueDate,
+                })}`}
               />
+              {errors.dueDate && (
+                <span className="small text-danger">{errors.dueDate}</span>
+              )}
             </label>
             <label className="form-label">
               Status:
