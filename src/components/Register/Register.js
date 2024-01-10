@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./Register.css";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { baseUrl } from "../../utils/authApi";
 
-const Register = () => {
+const Register = ({ onCloseModal }) => {
   const [user, setUser] = useState({ username: "", email: "", password: "" });
   const [errors, setErrors] = useState({
     username: "",
@@ -69,53 +69,55 @@ const Register = () => {
       }
 
       console.log(data);
+      onCloseModal();
     } catch (error) {
       console.error("Error registering user:", error);
     }
   };
 
   return (
-    <div className="register-container">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit} className="register-form">
-        <label>
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={user.username}
-            onChange={handleChange}
-            required
-          />
-          {errors.username && <p>{errors.username}</p>}
-        </label>
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={user.email}
-            onChange={handleChange}
-            required
-          />
-          {errors.email && <p>{errors.email}</p>}
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={user.password}
-            onChange={handleChange}
-            required
-          />
-          {errors.password && <p>{errors.password}</p>}
-        </label>
-        <button type="submit" className="submit-btn">
-          Register
-        </button>
-      </form>
-    </div>
+    <ModalWithForm
+      title="Register"
+      onSubmit={handleSubmit}
+      onClose={onCloseModal}
+    >
+      <label className="form-label">
+        Username:
+        <input
+          type="text"
+          name="username"
+          value={user.username}
+          onChange={handleChange}
+          required
+        />
+        {errors.username && <p>{errors.username}</p>}
+      </label>
+      <label className="form-label">
+        Email:
+        <input
+          type="email"
+          name="email"
+          value={user.email}
+          onChange={handleChange}
+          required
+        />
+        {errors.email && <p>{errors.email}</p>}
+      </label>
+      <label className="form-label">
+        Password:
+        <input
+          type="password"
+          name="password"
+          value={user.password}
+          onChange={handleChange}
+          required
+        />
+        {errors.password && <p>{errors.password}</p>}
+      </label>
+      <button type="submit" className="form-button">
+        Register
+      </button>
+    </ModalWithForm>
   );
 };
 

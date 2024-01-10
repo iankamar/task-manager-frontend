@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./Login.css";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-const Login = ({ handleLogin }) => {
+const Login = ({ handleLogin, onCloseModal }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
 
@@ -22,43 +22,39 @@ const Login = ({ handleLogin }) => {
     if (!validateForm()) return;
     try {
       handleLogin(credentials);
+      onCloseModal(); // Close the modal after successful login
     } catch (error) {
       console.error("Error logging in:", error);
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} className="login-form">
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={credentials.email}
-            onChange={handleChange}
-            required
-          />
-          {errors.email && <div className="error">{errors.email}</div>}
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-            required
-            autoComplete="on"
-          />
-          {errors.password && <div className="error">{errors.password}</div>}
-        </div>
-        <button type="submit" className="submit-btn">
-          Login
-        </button>
-      </form>
-    </div>
+    <ModalWithForm title="Login" onSubmit={handleSubmit} onClose={onCloseModal}>
+      <label>Email:</label>
+      <input
+        type="email"
+        name="email"
+        value={credentials.email}
+        onChange={handleChange}
+        required
+      />
+      {errors.email && <div className="error">{errors.email}</div>}
+
+      <label>Password:</label>
+      <input
+        type="password"
+        name="password"
+        value={credentials.password}
+        onChange={handleChange}
+        required
+        autoComplete="on"
+      />
+      {errors.password && <div className="error">{errors.password}</div>}
+
+      <button type="submit" className="submit-btn">
+        Login
+      </button>
+    </ModalWithForm>
   );
 };
 

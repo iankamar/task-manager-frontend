@@ -1,5 +1,7 @@
-import { useNavigate, useParams, Link } from "react-router-dom";
+import React from "react";
 import "../ModalWithForm/ModalWithForm.css";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { deleteTask } from "../../utils/taskApi";
 
 const DeleteTask = () => {
@@ -16,14 +18,19 @@ const DeleteTask = () => {
   };
 
   return (
-    <div className="modal-container mt-3 delete-task-container">
-      <button onClick={handleDelete} className="delete-btn">
+    <ModalWithForm
+      title="Delete Task"
+      onSubmit={handleDelete}
+      onClose={navigate}
+      showCloseButton={false}
+    >
+      <button type="submit" className="delete-btn">
         Delete Task
       </button>
       <Link to="/tasks" className="btn btn-secondary">
         Back to Task List
       </Link>
-    </div>
+    </ModalWithForm>
   );
 };
 

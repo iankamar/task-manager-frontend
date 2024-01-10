@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../ModalWithForm/ModalWithForm.css";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { getTask, updateTask } from "../../utils/taskApi";
 import { Alert } from "react-bootstrap";
@@ -56,8 +57,8 @@ const UpdateTask = ({ onCloseModal }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleUpdate = async (event) => {
-    event.preventDefault();
+  const handleUpdate = async (e) => {
+    e.preventDefault();
     if (validateForm()) {
       try {
         await updateTask(taskId, updatedTask);
@@ -66,94 +67,87 @@ const UpdateTask = ({ onCloseModal }) => {
           navigate("/tasks");
         }, 0);
       } catch (error) {
-        setTaskAlert(error);
+        setTaskAlert(error.message || "An error occurred");
         console.error("Error updating task:", error);
       }
     }
   };
 
   return (
-    <div className="modal-container">
-      <div className="modal-content">
-        <span className="close-btn" onClick={onCloseModal}>
-          &times;
-        </span>
-        <h2>Update Task</h2>
-        {updatedTask && (
-          <form onSubmit={handleUpdate}>
-            {taskAlert && (
-              <Alert variant="danger">
-                <div className="alert-body">
-                  <span>{`${taskAlert}`}</span>
-                </div>
-              </Alert>
+    <ModalWithForm
+      title="Update Task"
+      onSubmit={handleUpdate}
+      onClose={onCloseModal}
+      showCloseButton={false}
+      errors={taskAlert && <Alert variant="danger">{taskAlert}</Alert>}
+    >
+      {updatedTask && (
+        <>
+          <label className="form-label">
+            Title:
+            <input
+              type="text"
+              name="title"
+              value={updatedTask.title}
+              onChange={handleChange}
+              className={`form-input ${classnames({
+                "is-invalid": errors.title,
+              })}`}
+            />
+            {errors.title && (
+              <span className="small text-danger">{errors.title}</span>
             )}
-            <label className="form-label">
-              Title:
-              <input
-                type="text"
-                name="title"
-                value={updatedTask.title}
-                onChange={handleChange}
-                className={`form-input ${classnames({
-                  "is-invalid": errors.title,
-                })}`}
-              />
-              {errors.title && (
-                <span className="small text-danger">{errors.title}</span>
-              )}
-            </label>
-            <label className="form-label">
-              Description:
-              <textarea
-                name="description"
-                value={updatedTask.description}
-                onChange={handleChange}
-                className={`form-textarea ${classnames({
-                  "is-invalid": errors.description,
-                })}`}
-              />
-              {errors.description && (
-                <span className="small text-danger">{errors.description}</span>
-              )}
-            </label>
-            <label className="form-label">
-              Due Date:
-              <input
-                type="date"
-                name="dueDate"
-                value={updatedTask.dueDate}
-                onChange={handleChange}
-                className={`form-input ${classnames({
-                  "is-invalid": errors.dueDate,
-                })}`}
-              />
-              {errors.dueDate && (
-                <span className="small text-danger">{errors.dueDate}</span>
-              )}
-            </label>
-            <label className="form-label">
-              Status:
-              <select
-                name="status"
-                value={updatedTask.status}
-                onChange={handleChange}
-                className="form-select"
-              >
-                <option value="in-progress">In Progress</option>
-                <option value="completed">Completed</option>
-              </select>
-            </label>
-            <button type="submit" className="form-button">
-              Update Task
-            </button>
-            <Link to="/tasks" className="btn btn-secondary">
-              Back to Task List
-            </Link>
-          </form>
-        )}
-      </div>
-    </div>
+          </label>
+          <label className="form-label">
+            Description:
+            <textarea
+              name="description"
+              value={updatedTask.description}
+              onChange={handleChange}
+              className={`form-textarea ${classnames({
+                "is-invalid": errors.description,
+              })}`}
+            />
+            {errors.description && (
+              <span className="small text-danger">{errors.description}</span>
+            )}
+          </label>
+          <label className="form-label">
+            Due Date:
+            <input
+              type="date"
+              name="dueDate"
+              value={updatedTask.dueDate}
+              onChange={handleChange}
+              className={`form-input ${classnames({
+                "is-invalid": errors.dueDate,
+              })}`}
+            />
+            {errors.dueDate && (
+              <span className="small text-danger">{errors.dueDate}</span>
+            )}
+          </label>
+          <label className="form-label">
+            Status:
+            <select
+              name="status"
+              value={updatedTask.status}
+              onChange={handleChange}
+              className="form-select"
+            >
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+          </label>
+          <button type="submit" className="form-button">
+            Update Task
+          </button>
+          <Link to="/tasks" className="btn btn-secondary">
+            Back to Task List
+          </Link>
+        </>
+      )}
+    </ModalWithForm>
   );
 };
 
