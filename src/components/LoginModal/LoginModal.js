@@ -8,6 +8,7 @@ const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const validateForm = () => {
@@ -21,7 +22,10 @@ const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
   const handleSubmit = async () => {
     if (!validateForm()) return;
     try {
-      handleLogin(credentials);
+      const response = await handleLogin(credentials);
+      if (response && response.success) {
+        onCloseModal();
+      }
     } catch (error) {
       console.error("Error logging in:", error);
     }

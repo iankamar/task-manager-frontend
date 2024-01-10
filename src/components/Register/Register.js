@@ -12,6 +12,7 @@ const Register = ({ onCloseModal }) => {
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const validateForm = () => {
@@ -69,7 +70,11 @@ const Register = ({ onCloseModal }) => {
       }
 
       console.log(data);
-      onCloseModal();
+      if (data && data.success) {
+        onCloseModal();
+      } else {
+        console.error("Error registering user:", data.error);
+      }
     } catch (error) {
       console.error("Error registering user:", error);
     }

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-const Login = ({ handleLogin, onCloseModal }) => {
+const Login = ({ onCloseModal, handleLogin, loginErr }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const validateForm = () => {
@@ -17,12 +18,14 @@ const Login = ({ handleLogin, onCloseModal }) => {
     return Object.keys(formErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
     try {
-      handleLogin(credentials);
-      onCloseModal(); // Close the modal after successful login
+      const response = await handleLogin(credentials);
+      if (response && response.success) {
+        onCloseModal();
+      }
     } catch (error) {
       console.error("Error logging in:", error);
     }
@@ -34,6 +37,7 @@ const Login = ({ handleLogin, onCloseModal }) => {
       <input
         type="email"
         name="email"
+        className="form-control"
         value={credentials.email}
         onChange={handleChange}
         required
@@ -44,6 +48,7 @@ const Login = ({ handleLogin, onCloseModal }) => {
       <input
         type="password"
         name="password"
+        className="form-control"
         value={credentials.password}
         onChange={handleChange}
         required
@@ -51,7 +56,7 @@ const Login = ({ handleLogin, onCloseModal }) => {
       />
       {errors.password && <div className="error">{errors.password}</div>}
 
-      <button type="submit" className="submit-btn">
+      <button type="submit" className="form-button">
         Login
       </button>
     </ModalWithForm>

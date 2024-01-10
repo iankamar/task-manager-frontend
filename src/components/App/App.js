@@ -103,24 +103,24 @@ const NavigationComponent = ({
       });
   };
 
-  const handleRegistration = ({ email, password, name }) => {
-    register({ email, password, name })
-      .then((res) => {
-        console.log("Registration response:", res);
-        if (res.token) {
-          localStorage.setItem("token", res.token);
-          setIsLoggedIn(true);
-          setRegisterErr("");
-          handleCloseModal();
-          navigate("/tasks");
-        } else if (res.message !== "User successfully registered") {
-          setRegisterErr(res.message);
-        }
-      })
-      .catch((err) => {
-        console.log("Registration response:", err);
-        setRegisterErr(err.message);
-      });
+  const handleRegistration = async ({ email, password, name }) => {
+    try {
+      const res = await register({ email, password, name });
+      console.log("Registration response:", res);
+      if (res.token) {
+        localStorage.setItem("token", res.token);
+        setIsLoggedIn(true);
+        setRegisterErr("");
+        handleCloseModal();
+        navigate("/tasks");
+      } else if (res.message !== "User successfully registered") {
+        setRegisterErr(res.message);
+      }
+      return res;
+    } catch (err) {
+      console.log("Registration response:", err);
+      setRegisterErr(err.message);
+    }
   };
 
   const handleLogin = ({ email, password }) => {
@@ -273,9 +273,7 @@ const NavigationComponent = ({
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("token") ? true : false
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const currentUser = {
     tasks,
