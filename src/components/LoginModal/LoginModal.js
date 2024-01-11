@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { Alert } from "react-bootstrap";
 
 const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -38,13 +37,6 @@ const LoginModal = ({ onCloseModal, handleLogin, loginErr }) => {
       onClose={onCloseModal}
       errors={loginErr}
     >
-      {loginErr && (
-        <Alert variant="danger">
-          <div className="alert-body">
-            <span>{`Error: ${loginErr}`}</span>
-          </div>
-        </Alert>
-      )}
       <label>
         Email:
         <input

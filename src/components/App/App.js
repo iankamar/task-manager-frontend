@@ -22,7 +22,8 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import { useAppContext } from "../../contexts/AppContext";
 import checkRequests from "../HOC";
-import { ToastContainer } from "react-toastify";
+// ** Toast
+import toast, { Toaster } from "react-hot-toast";
 
 const NavigationComponent = ({
   tasks,
@@ -108,12 +109,25 @@ const NavigationComponent = ({
     try {
       const res = await register({ email, password, name });
       console.log("Registration response:", res);
-      if (res.token) {
-        localStorage.setItem("token", res.token);
-        setIsLoggedIn(true);
+      if (res.user) {
+        // setIsLoggedIn(true);
         setRegisterErr("");
         handleCloseModal();
-        navigate("/tasks");
+        toast.success(
+          () => (
+            <div className="d-flex">
+              <div className="d-flex flex-column">
+                <span className="small">
+                  You have successfully Registration!
+                </span>
+              </div>
+            </div>
+          ),
+          {
+            duration: 3000,
+            position: "top-right",
+          }
+        );
       } else if (res.message !== "User successfully registered") {
         setRegisterErr(res.message);
       }
@@ -134,8 +148,6 @@ const NavigationComponent = ({
           setLoginErr("");
           handleCloseModal();
           navigate("/tasks");
-        } else {
-          setLoginErr(res.message);
         }
       })
       .catch((err) => {
@@ -296,10 +308,13 @@ const App = () => {
               isLoggedIn={isLoggedIn}
               setIsLoggedIn={setIsLoggedIn}
             />
+            <Toaster
+              position="top-right"
+              toastOptions={{ className: "react-hot-toast" }}
+            />
           </HashRouter>
         </CurrentUserContext.Provider>
       </AppProvider>
-      <ToastContainer />
     </AuthProvider>
   );
 };

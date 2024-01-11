@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { Alert } from "react-bootstrap";
 
 const RegisterModal = ({ onCloseModal, handleRegistration, registerErr }) => {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
@@ -24,8 +23,10 @@ const RegisterModal = ({ onCloseModal, handleRegistration, registerErr }) => {
     if (!validateForm()) return;
     try {
       const response = await handleRegistration(user);
-      if (response && response) {
-        onCloseModal();
+      if (response) {
+        if (response.success) {
+          onCloseModal();
+        }
       }
     } catch (error) {
       console.error("Error registering user:", error);
@@ -40,13 +41,6 @@ const RegisterModal = ({ onCloseModal, handleRegistration, registerErr }) => {
       errors={registerErr}
       closeModal={onCloseModal}
     >
-      {registerErr && (
-        <Alert variant="danger">
-          <div className="alert-body">
-            <span>{`Error: ${registerErr}`}</span>
-          </div>
-        </Alert>
-      )}
       <label className="form-label">
         Name:
         <input
