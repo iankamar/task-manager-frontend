@@ -22,6 +22,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import { useAppContext } from "../../contexts/AppContext";
 import checkRequests from "../HOC";
+import { ToastContainer } from "react-toastify";
 
 const NavigationComponent = ({
   tasks,
@@ -298,6 +299,7 @@ const App = () => {
           </HashRouter>
         </CurrentUserContext.Provider>
       </AppProvider>
+      <ToastContainer />
     </AuthProvider>
   );
 };

@@ -19,25 +19,13 @@ const RegisterModal = ({ onCloseModal, handleRegistration, registerErr }) => {
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
-  /*
-  const handleSubmit = async () => {
-    if (!validateForm()) return;
-    try {
-      handleRegistration(user);
-      onCloseModal();
-    } catch (error) {
-      console.error("Error registering user:", error);
-    }
-  };
-  */
+
   const handleSubmit = async () => {
     if (!validateForm()) return;
     try {
       const response = await handleRegistration(user);
-      if (response) {
-        if (response.success) {
-          onCloseModal();
-        }
+      if (response && response) {
+        onCloseModal();
       }
     } catch (error) {
       console.error("Error registering user:", error);
