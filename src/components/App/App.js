@@ -286,7 +286,10 @@ const NavigationComponent = ({
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    const token = localStorage.getItem("token");
+    return token ? true : false;
+  });
 
   const currentUser = {
     tasks,
