@@ -1,6 +1,12 @@
 # Project Overview
 
 This project is a part of a web-based task manager application. The frontend is built using React.js and is designed to provide a seamless user experience. It allows users to create, read, update, and delete tasks in a visually appealing and user-friendly interface.
+<img width="847" alt="Task Manager A" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/03603d27-309c-4e27-aa18-41b03df44420">
+<img width="848" alt="Task Manager B" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/06b5582f-0271-4207-b7c4-90574d4deecf">
+<img width="866" alt="Task Manager C" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/3334a30e-938a-465b-8e6c-88637b2b4a55">
+<img width="862" alt="Task Manager D" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/7fe72511-0d2b-4220-ae56-6eaf40a5f3f9">
+<img width="856" alt="Task Manager E" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/2738679d-35f0-4e40-a3d0-ff95f25bb56e">
+
 
 ## Key Features
 
