@@ -4,7 +4,7 @@ This project is a part of a web-based task manager application. The frontend is 
 <img width="847" alt="Task Manager A" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/03603d27-309c-4e27-aa18-41b03df44420">
 <img width="848" alt="Task Manager B" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/06b5582f-0271-4207-b7c4-90574d4deecf">
 <img width="844" alt="Task Manager C" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/adc8be4b-c738-46db-a6d3-fd35552e57f4">
-<img width="853" alt="Task Manager D" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/eb9d2801-2625-4c6e-a4a5-f54f43dd425f">
+<img width="721" alt="Task Manager D" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/9160487e-5aa4-4e54-b7b5-1f47701974e3">
 <img width="856" alt="Task Manager E" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/ae29d720-5d56-4ae0-9c73-34648c4e8e51">
 <img width="857" alt="Task Manager F" src="https://github.com/iankamar/task-manager-frontend/assets/95672055/b0f79073-5965-4d2c-851d-b39deb83c039">
 
