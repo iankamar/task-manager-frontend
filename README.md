@@ -39,6 +39,6 @@ The application is optimized for desktop, mobile version coming soon
 
 To access the application, use the following domain:
 
-- Domain: [Ian Kamar's TASK MANAGER](https://task-manager-backend-livid.vercel.app/)
+- Domain: [Ian Kamar's TASK MANAGER](https://task-manager-frontend-fawn.vercel.app/)
 
 ## The application is optimized for desktop, mobile version coming soon
