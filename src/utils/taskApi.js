@@ -1,6 +1,6 @@
 import { request } from "./api";
 
-const API_URL = "https://api-iankamar-taskmanager.azurewebsites.net/api";
+const API_URL = "https://task-manager-backend-livid.vercel.app/";
 //const API_URL = "http://localhost:3001/api";
 
 export const getTaskList = async () => {
