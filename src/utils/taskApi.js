@@ -1,12 +1,12 @@
 import { request } from "./api";
 
-const API_URL = "https://task-manager-backend-nc497uynq-iankamars-projects.vercel.app/api";
+// const API_URL = "https://task-manager-backend-nc497uynq-iankamars-projects.vercel.app/api";
 // const API_URL = "http://localhost:3001/api";
-/*
+
 const API_URL = process.env.NODE_ENV === 'production'
   ? "https://task-manager-backend-nc497uynq-iankamars-projects.vercel.app/api"
   : "http://localhost:3001/api";
-*/
+
 
 export const getTaskList = async () => {
   const token = localStorage.getItem("token");

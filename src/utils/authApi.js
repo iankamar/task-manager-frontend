@@ -1,12 +1,12 @@
 import { request } from "./api";
 
-export const baseUrl = "https://task-manager-backend-nc497uynq-iankamars-projects.vercel.app/api";
+// export const baseUrl = "https://task-manager-backend-nc497uynq-iankamars-projects.vercel.app/api";
 // export const baseUrl = "http://localhost:3001/api";
-/*
+
 export const baseUrl = process.env.NODE_ENV === 'production'
   ? "https://task-manager-backend-nc497uynq-iankamars-projects.vercel.app/api"
   : "http://localhost:3001/api";
-*/
+
 
 export const register = async ({ email, password, name }) => {
   const requestOptions = {
