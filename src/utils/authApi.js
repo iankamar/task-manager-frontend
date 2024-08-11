@@ -1,7 +1,7 @@
 import { request } from "./api";
 
-export const baseUrl = "https://task-manager-backend-livid.vercel.app/";
-//export const baseUrl = "http://localhost:3001/api";
+// export const baseUrl = "https://task-manager-backend-livid.vercel.app";
+export const baseUrl = "http://localhost:3001/api";
 
 export const register = async ({ email, password, name }) => {
   const requestOptions = {
